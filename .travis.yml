@@ -12,3 +12,13 @@ before_install:
 script:
 - yarn build
 - yarn test:types
+
+deploy:
+  provider: npm
+  email: jacobwgillespie@gmail.com
+  api_key:
+    secure: gEMvz0gK+qBUpWEKO6Tl9rmFQfju3WZg9wXt32hASORDIqaKt/vc9yeZH1A2X0FoZ2Zj+g8RHEJ8aPkuHd56X1CjCU+9TGEPYAuFZvAdx3TYm1B0HcBoaINM+WXk42oh6oTwQJWZeO73EYVHTLeI/DbcYyTrvKBhrTAijbUX+NoLFGamrI/dOmPTCNnh9Cqq7jmexlVvhZv/4GZf7H2gE17hR5GWzW0N2EZuDuQY+QghNRv+TKMx3cXnmhj3FTeRd8n69NB8HPHvtrlt9v1X96BNZmunRcCoOrRN7R4TIDXuu2HJ6xgCoSi4zxN4zWsv+9YM2gWyEX9ZrSeb3mmVXwoOlR3dXnLaKUkOCqpl/FAUN94eYqbv01nOEQWAuFkv8tyI5f5kK1F2QWDdUx0+rMtY5VaLRUyxTS0JpS58zdYwcq1Z349CvRWdl1xN7CLDgchffue24jA3Iumo8BK9t0+uPqp8zpt+MyMnHRrzUyPwdO8UjgKDo0CBEPdL+cB8e7HbLC4xygNDXOm5+54YQl8vdaLbw5Ql9FY1+MCJGqG8gqX1aozuy82t/Btsj7k1n3ci64dNynGeLEDhSDcdZJgW9YLohFGrTqWOY2CQah8gefFwRAng4wxqXqguM1Vnh9HtLIUu71n9lEtO8D+UZJDSSgAqtLKAp6mJRJerfv0=
+  on:
+    repo: jacobwgillespie/elastic-ts
+    tags: true
+  skip_cleanup: true
