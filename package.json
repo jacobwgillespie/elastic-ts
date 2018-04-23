@@ -1,0 +1,48 @@
+{
+  "name": "elastic-ts",
+  "version": "0.1.0",
+  "description": "TypeScript + Elasticsearch (types, query builder, magic)",
+  "author": "Jacob Gillespie <jacobwgillespie@gmail.com>",
+  "homepage": "https://github.com/jacobwgillespie/elastic-ts",
+  "repository": "git://github.com/jacobwgillespie/elastic-ts.git",
+  "license": "MIT",
+  "main": "dist/elastic-ts.js",
+  "module": "dist/elastic-ts.m.js",
+  "typings": "dist/elastic-ts.d.ts",
+  "source": "src/elastic-ts.ts",
+  "sideEffects": false,
+  "files": [
+    "dist",
+    "CHANGELOG.md",
+    "LICENSE",
+    "README.md"
+  ],
+  "keywords": [
+    "typescript",
+    "elasticsearch"
+  ],
+  "scripts": {
+    "build": "microbundle -f es,cjs --external all",
+    "dev": "microbundle watch -f es,cjs --external all",
+    "precommit": "pretty-quick --staged",
+    "test:types": "tsc --project test/types"
+  },
+  "dependencies": {
+    "@sindresorhus/is": "^0.8.0"
+  },
+  "devDependencies": {
+    "@types/node": "^9.6.6",
+    "husky": "^0.14.3",
+    "microbundle": "^0.4.4",
+    "prettier": "^1.12.1",
+    "pretty-quick": "^1.4.1",
+    "typescript": "^2.8.3"
+  },
+  "prettier": {
+    "bracketSpacing": false,
+    "printWidth": 120,
+    "semi": false,
+    "singleQuote": true,
+    "trailingComma": "all"
+  }
+}
