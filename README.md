@@ -1,5 +1,6 @@
 # ✨ elastic-ts
 
+[![Build Status](https://travis-ci.org/jacobwgillespie/elastic-ts.svg?branch=master)](https://travis-ci.org/jacobwgillespie/elastic-ts)
 ![Status: Alpha](https://img.shields.io/badge/status-alpha-red.svg)
 ![Powered by TypeScript](https://img.shields.io/badge/powered%20by-typescript-blue.svg)
 
