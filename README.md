@@ -11,7 +11,7 @@ A TypeScript module for working with Elasticsearch.
 ### Goals
 
 * Provide TypeScript types for Elasticsearch queries
-* Provide a typed query body builder that with an immutable API
+* Provide a typed query body builder with an immutable API
 
 ### Non-goals
 
@@ -42,7 +42,10 @@ const body: SearchBody = {
 ```typescript
 import {elasticBuilder} from 'elastic-ts'
 
-const body = elasticBuilder().query('match_all', {})
+const body = elasticBuilder()
+  .query('match_all', {})
+  .filter('terms', 'field', ['one', 'two'])
+  .build()
 ```
 
 ### Credits
