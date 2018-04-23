@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/jacobwgillespie/elastic-ts.svg?branch=master)](https://travis-ci.org/jacobwgillespie/elastic-ts)
 ![Status: Alpha](https://img.shields.io/badge/status-alpha-red.svg)
+[![npm](https://img.shields.io/npm/dm/elastic-ts.svg)](https://www.npmjs.com/package/elastic-ts)
+[![npm](https://img.shields.io/npm/v/elastic-ts.svg)](https://www.npmjs.com/package/elastic-ts)
 ![Powered by TypeScript](https://img.shields.io/badge/powered%20by-typescript-blue.svg)
 
 A TypeScript module for working with Elasticsearch.
