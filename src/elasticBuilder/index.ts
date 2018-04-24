@@ -20,14 +20,10 @@ export interface ElasticBuilder extends AggregationBuilder<ElasticBuilder>, Quer
   build(): SearchBody
 }
 
-function buildElasticBuilder(
-  initialData: SearchBody = {},
-  aggregationBuilderInstance?: any,
-  queryBuilderInstance?: any,
-): ElasticBuilder {
+function buildElasticBuilder(initialData: SearchBody = {}): ElasticBuilder {
   const body: SearchBody = initialData || {}
 
-  var builder: ElasticBuilder = {
+  return {
     sort(field: any, order?: any) {
       let currentSort = body.sort
       let nextSort: Sort
@@ -74,11 +70,9 @@ function buildElasticBuilder(
       return JSON.parse(JSON.stringify(body))
     },
 
-    ...(aggregationBuilderInstance || aggregationBuilder()),
-    ...(queryBuilderInstance || queryBuilder()),
+    ...aggregationBuilder(),
+    ...queryBuilder(),
   }
-
-  return builder
 }
 
 export const elasticBuilder = () => buildElasticBuilder()
