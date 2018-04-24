@@ -5,9 +5,13 @@ import {Sort, FieldSortOptions, SortOrder} from '../types/common'
 
 import {mergeSort} from './utils'
 import {AggregationBuilder, aggregationBuilder} from './aggregationBuilder'
+import {FilterBuilder, filterBuilder} from './filterBuilder'
 import {QueryBuilder, queryBuilder} from './queryBuilder'
 
-export interface ElasticBuilder extends AggregationBuilder<ElasticBuilder>, QueryBuilder<ElasticBuilder> {
+export interface ElasticBuilder
+  extends AggregationBuilder<ElasticBuilder>,
+    FilterBuilder<ElasticBuilder>,
+    QueryBuilder<ElasticBuilder> {
   sort(field: string): ElasticBuilder
   sort(field: string, order: SortOrder): ElasticBuilder
   sort(field: string, config: FieldSortOptions): ElasticBuilder
@@ -71,6 +75,7 @@ function buildElasticBuilder(initialData: SearchBody = {}): ElasticBuilder {
     },
 
     ...aggregationBuilder(),
+    ...filterBuilder(),
     ...queryBuilder(),
   }
 }
