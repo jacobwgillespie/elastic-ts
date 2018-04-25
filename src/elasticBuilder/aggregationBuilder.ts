@@ -5,9 +5,11 @@ import {Aggregations, AllAggregations, Aggregation} from '../types/aggregations'
 export interface AggregationBuilder<B> {
   agg<K extends keyof AllAggregations>(name: string, type: K, config: AllAggregations[K]): B
   agg(name: string, aggregation: Aggregation): B
+  agg(aggregation: Aggregations): B
 
   aggregation<K extends keyof AllAggregations>(name: string, type: K, config: AllAggregations[K]): B
   aggregation(name: string, aggregation: Aggregation): B
+  aggregation(aggregation: Aggregations): B
 
   getAggregations(): Aggregations
 
@@ -18,11 +20,11 @@ function buildAggregationBuilder<B>(this: B, initialData?: Aggregations): Aggreg
   const aggregations: Aggregations = initialData || {}
 
   return Object.assign({}, this, {
-    agg(name: any, typeOrAggregation: any, config?: any) {
+    agg(name: any, typeOrAggregation?: any, config?: any) {
       return this.aggregation(name, typeOrAggregation, config)
     },
 
-    aggregation(name: any, typeOrAggregation: any, config?: any): B {
+    aggregation(name: any, typeOrAggregation?: any, config?: any): B {
       if (is.string(typeOrAggregation)) {
         return buildAggregationBuilder.call(this, {
           ...aggregations,
@@ -34,6 +36,11 @@ function buildAggregationBuilder<B>(this: B, initialData?: Aggregations): Aggreg
         return buildAggregationBuilder.call(this, {
           ...aggregations,
           [name]: typeOrAggregation,
+        })
+      } else if (is.nullOrUndefined(typeOrAggregation)) {
+        return buildAggregationBuilder.call(this, {
+          ...aggregations,
+          ...name,
         })
       }
 
