@@ -38,7 +38,6 @@ export function buildQueryBuilder<B>(this: B, initialData?: FilterData): QueryBu
   }
 
   function pushImmutable(this: B, bool: keyof typeof data['filters'], query: Query) {
-    console.log('this', this)
     return buildQueryBuilder.call(this, {
       ...data,
       filters: {

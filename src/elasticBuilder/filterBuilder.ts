@@ -38,7 +38,6 @@ export function buildFilterBuilder<B>(this: B, initialData?: FilterData): Filter
   }
 
   function pushImmutable(this: B, bool: keyof typeof data['filters'], filter: Query) {
-    console.log('this', this)
     return buildFilterBuilder.call(this, {
       ...data,
       filters: {
