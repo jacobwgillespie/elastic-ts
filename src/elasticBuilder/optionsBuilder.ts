@@ -1,24 +1,8 @@
 import is from '@sindresorhus/is'
-import {SortOrder, FieldSortOptions, Sort} from '../types/common'
+import {Sort} from '../types/common'
 import {SearchBody} from '../types'
+import {OptionsBuilder} from './types'
 import {mergeSort} from './utils'
-
-export interface OptionsBuilder<B> {
-  sort(field: string): B
-  sort(field: string, order: SortOrder): B
-  sort(field: string, config: FieldSortOptions): B
-  sort(config: Sort): B
-
-  from(quantity: number | undefined): B
-
-  size(quantity: number | undefined): B
-
-  rawOption<K extends keyof SearchBody>(k: K, v: SearchBody[K]): B
-
-  getOptions(): SearchBody
-
-  hasOptions(): boolean
-}
 
 function buildOptionsBuilder<B>(this: B, initialData?: SearchBody): OptionsBuilder<B> {
   const options: SearchBody = initialData || {}

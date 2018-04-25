@@ -1,37 +1,7 @@
 import is from '@sindresorhus/is'
 
-import {Aggregations, AllAggregations, Aggregation} from '../types/aggregations'
-import {FilterBuilder} from './filterBuilder'
-
-export interface SubAggregationBuilder
-  extends AggregationBuilder<SubAggregationBuilder>,
-    FilterBuilder<SubAggregationBuilder> {}
-
-export type SubAggregationFn = (sub: SubAggregationBuilder) => SubAggregationBuilder
-
-export interface AggregationBuilder<B> {
-  agg<K extends keyof AllAggregations>(
-    name: string,
-    type: K,
-    config: AllAggregations[K],
-    subaggregations?: SubAggregationFn,
-  ): B
-  agg(name: string, aggregation: Aggregation, subaggregations?: SubAggregationFn): B
-  agg(aggregation: Aggregations): B
-
-  aggregation<K extends keyof AllAggregations>(
-    name: string,
-    type: K,
-    config: AllAggregations[K],
-    subaggregations?: SubAggregationFn,
-  ): B
-  aggregation(name: string, aggregation: Aggregation, subaggregations?: SubAggregationFn): B
-  aggregation(aggregation: Aggregations): B
-
-  getAggregations(): Aggregations
-
-  hasAggregations(): boolean
-}
+import {Aggregations} from '../types/aggregations'
+import {AggregationBuilder} from './types'
 
 function buildAggregationBuilder<B>(this: B, initialData?: Aggregations): AggregationBuilder<B> {
   const aggregations: Aggregations = initialData || {}

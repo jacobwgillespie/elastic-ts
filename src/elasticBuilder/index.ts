@@ -1,9 +1,22 @@
 import {SearchBody} from '../types'
 
-import {AggregationBuilder, aggregationBuilder, SubAggregationBuilder, SubAggregationFn} from './aggregationBuilder'
-import {FilterBuilder, filterBuilder, FilterSubFilterBuilder, FilterSubFilterFn} from './filterBuilder'
-import {OptionsBuilder, optionsBuilder} from './optionsBuilder'
-import {QueryBuilder, queryBuilder, QuerySubFilterBuilder, QuerySubFilterFn} from './queryBuilder'
+import {aggregationBuilder} from './aggregationBuilder'
+import {filterBuilder} from './filterBuilder'
+import {optionsBuilder} from './optionsBuilder'
+import {queryBuilder} from './queryBuilder'
+
+import {
+  AggregationBuilder,
+  SubAggregationBuilder,
+  SubAggregationFn,
+  FilterBuilder,
+  FilterSubFilterBuilder,
+  FilterSubFilterFn,
+  OptionsBuilder,
+  QueryBuilder,
+  QuerySubFilterBuilder,
+  QuerySubFilterFn,
+} from './types'
 
 export interface ElasticBuilder
   extends AggregationBuilder<ElasticBuilder>,

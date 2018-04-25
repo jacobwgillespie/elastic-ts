@@ -1,53 +1,5 @@
-import {Query, AllQueries, AllFieldQueryConfigs} from '../types/queries'
-import {FilterData, pushQuery} from './utils'
-import {FilterBuilder} from './filterBuilder'
-
-export interface QuerySubFilterBuilder
-  extends FilterBuilder<QuerySubFilterBuilder>,
-    QueryBuilder<QuerySubFilterBuilder> {}
-
-export type QuerySubFilterFn = (sub: QuerySubFilterBuilder) => QuerySubFilterBuilder
-
-export interface QueryBuilder<B> {
-  query<K extends keyof AllFieldQueryConfigs>(
-    type: K,
-    field: string,
-    config: AllFieldQueryConfigs[K],
-    subfilters?: QuerySubFilterFn,
-  ): B
-  query<K extends keyof AllQueries>(type: K, config: AllQueries[K], subfilters?: QuerySubFilterFn): B
-  query(query: Query): B
-
-  andQuery<K extends keyof AllFieldQueryConfigs>(
-    type: K,
-    field: string,
-    config: AllFieldQueryConfigs[K],
-    subfilters?: QuerySubFilterFn,
-  ): B
-  andQuery<K extends keyof AllQueries>(type: K, config: AllQueries[K], subfilters?: QuerySubFilterFn): B
-  andQuery(query: Query): B
-
-  orQuery<K extends keyof AllFieldQueryConfigs>(
-    type: K,
-    field: string,
-    config: AllFieldQueryConfigs[K],
-    subfilters?: QuerySubFilterFn,
-  ): B
-  orQuery<K extends keyof AllQueries>(type: K, config: AllQueries[K], subfilters?: QuerySubFilterFn): B
-  orQuery(query: Query): B
-
-  notQuery<K extends keyof AllFieldQueryConfigs>(
-    type: K,
-    field: string,
-    config: AllFieldQueryConfigs[K],
-    subfilters?: QuerySubFilterFn,
-  ): B
-  notQuery<K extends keyof AllQueries>(type: K, config: AllQueries[K], subfilters?: QuerySubFilterFn): B
-  notQuery(query: Query): B
-
-  getQuery(): FilterData
-  hasQuery(): boolean
-}
+import {FilterData, QueryBuilder} from './types'
+import {pushQuery} from './utils'
 
 export function buildQueryBuilder<B>(this: B, isInFilterContext: boolean, initialData?: FilterData): QueryBuilder<B> {
   const data: FilterData = initialData || {

@@ -2,8 +2,16 @@ import is from '@sindresorhus/is'
 
 import {Sort} from '../types/common'
 import {Query, AllFieldQueryConfigs, AllQueries} from '../types/queries'
-import {filterBuilder, FilterBuilder, FilterSubFilterBuilder} from './filterBuilder'
-import {queryBuilder, QueryBuilder, QuerySubFilterBuilder} from './queryBuilder'
+import {filterBuilder} from './filterBuilder'
+import {queryBuilder} from './queryBuilder'
+import {
+  FilterBuilder,
+  FilterData,
+  FilterDataClause,
+  QueryBuilder,
+  FilterSubFilterBuilder,
+  QuerySubFilterBuilder,
+} from './types'
 
 export function isKeyofFieldQuery(v: any): v is keyof AllFieldQueryConfigs {
   return is.string(v)
@@ -15,23 +23,6 @@ export function isKeyofQuery(v: any): v is keyof AllQueries {
 
 export function isFieldConfig<T extends keyof AllFieldQueryConfigs>(_v: any): _v is AllFieldQueryConfigs[T] {
   return true
-}
-
-export interface FilterDataClause {
-  query: Query
-  nested?: {
-    filter?: FilterData
-    query?: FilterData
-  }
-}
-
-export interface FilterData {
-  clauses: {
-    and: FilterDataClause[]
-    or: FilterDataClause[]
-    not: FilterDataClause[]
-  }
-  minimum_should_match?: number
 }
 
 export function mergeSort(currentSort: Sort | undefined, sort: Sort): Sort {
