@@ -27,10 +27,10 @@ function buildElasticBuilder(): ElasticBuilder {
       })
     },
 
-    ...aggregationBuilder.apply({}),
-    ...filterBuilder.apply({}),
-    ...optionsBuilder.apply({}),
-    ...queryBuilder.apply({}),
+    ...aggregationBuilder.call({}),
+    ...filterBuilder.call({}),
+    ...optionsBuilder.call({}),
+    ...queryBuilder.call({}),
   }
 }
 

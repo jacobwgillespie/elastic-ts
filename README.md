@@ -17,6 +17,10 @@ A TypeScript module for working with Elasticsearch.
 
 * Replace the official Elasticsearch API client
 
+## Requirements
+
+* TypeScript 2.8 - this project uses conditional types which were introduced in TypeScript 2.8
+
 ## Installation
 
 ```

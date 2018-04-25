@@ -1,7 +1,5 @@
-import is from '@sindresorhus/is'
-
-import {Query, AllQueries, AllFieldQueryConfigs, FieldQueryConfig} from '../types/queries'
-import {FilterData, isKeyofFieldQuery, isKeyofQuery, isFieldConfig} from './utils'
+import {Query, AllQueries, AllFieldQueryConfigs} from '../types/queries'
+import {FilterData, pushQuery} from './utils'
 import {FilterBuilder} from './filterBuilder'
 
 export interface QuerySubFilterBuilder
@@ -47,88 +45,52 @@ export interface QueryBuilder<B> {
   notQuery<K extends keyof AllQueries>(type: K, config: AllQueries[K], subfilters?: QuerySubFilterFn): B
   notQuery(query: Query): B
 
-  getQuery(): Query
+  getQuery(): FilterData
   hasQuery(): boolean
 }
 
-export function buildQueryBuilder<B>(this: B, initialData?: FilterData): QueryBuilder<B> {
+export function buildQueryBuilder<B>(this: B, isInFilterContext: boolean, initialData?: FilterData): QueryBuilder<B> {
   const data: FilterData = initialData || {
-    filters: {
+    clauses: {
       and: [],
       or: [],
       not: [],
     },
   }
 
-  function pushImmutable(this: B, bool: keyof typeof data['filters'], query: Query) {
-    return buildQueryBuilder.call(this, {
-      ...data,
-      filters: {
-        ...data.filters,
-        [bool]: [...data.filters[bool], query],
-      },
-    })
-  }
+  const makeQuery = pushQuery.bind(undefined, isInFilterContext, data)
 
-  function addQuery(
-    this: B,
-    bool: keyof typeof data['filters'],
-    typeOrQuery: any,
-    fieldOrConfig?: any,
-    config?: any,
-  ): B {
-    if (isKeyofFieldQuery(typeOrQuery) && is.string(fieldOrConfig)) {
-      if (isFieldConfig(config)) {
-        // TODO: do we need to cast through any?
-        const fieldQueryConfig = ({
-          [fieldOrConfig]: config,
-        } as any) as FieldQueryConfig
-
-        // TODO: do we need to cast through any?
-        const query = ({
-          [typeOrQuery]: fieldQueryConfig,
-        } as any) as Query
-
-        return pushImmutable.call(this, bool, query)
-      }
-    } else if (isKeyofQuery(typeOrQuery) && is.plainObject(fieldOrConfig)) {
-      const query = {
-        [typeOrQuery]: fieldOrConfig,
-      } as Query
-
-      return pushImmutable.call(this, bool, query)
-    }
-
-    throw new TypeError('invalid arguments')
+  function next(this: B, nextData: FilterData) {
+    return buildQueryBuilder.call(this, isInFilterContext, nextData)
   }
 
   return Object.assign({}, this, {
-    query(typeOrQuery: any, fieldOrConfig?: any, config?: any) {
-      return addQuery.call(this, 'and', typeOrQuery, fieldOrConfig, config)
+    query(one: any, two?: any, three?: any, four?: any) {
+      return next.call(this, makeQuery('and', one, two, three, four))
     },
 
-    andQuery(typeOrQuery: any, fieldOrConfig?: any, config?: any) {
-      return addQuery.call(this, 'and', typeOrQuery, fieldOrConfig, config)
+    andQuery(one: any, two?: any, three?: any, four?: any) {
+      return next.call(this, makeQuery('and', one, two, three, four))
     },
 
-    orQuery(typeOrQuery: any, fieldOrConfig?: any, config?: any) {
-      return addQuery.call(this, 'or', typeOrQuery, fieldOrConfig, config)
+    orQuery(one: any, two?: any, three?: any, four?: any) {
+      return next.call(this, makeQuery('or', one, two, three, four))
     },
 
-    notQuery(typeOrQuery: any, fieldOrConfig?: any, config?: any) {
-      return addQuery.call(this, 'not', typeOrQuery, fieldOrConfig, config)
+    notQuery(one: any, two?: any, three?: any, four?: any) {
+      return next.call(this, makeQuery('not', one, two, three, four))
     },
 
     getQuery() {
-      return {bool: data} as Query
+      return data
     },
 
     hasQuery() {
-      return false
+      return !!(data.clauses.and.length || data.clauses.or.length || data.clauses.not.length)
     },
   })
 }
 
-export function queryBuilder<B>(this: B) {
-  return buildQueryBuilder.apply(this)
+export function queryBuilder<B>(this: B, isInFilterContext: boolean) {
+  return buildQueryBuilder.call(this, isInFilterContext)
 }

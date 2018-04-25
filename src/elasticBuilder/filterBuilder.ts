@@ -1,7 +1,5 @@
-import is from '@sindresorhus/is'
-
-import {Query, AllQueries, AllFieldQueryConfigs, FieldQueryConfig} from '../types/queries'
-import {FilterData, isKeyofFieldQuery, isKeyofQuery, isFieldConfig} from './utils'
+import {Query, AllQueries, AllFieldQueryConfigs} from '../types/queries'
+import {FilterData, pushQuery} from './utils'
 import {QueryBuilder} from './queryBuilder'
 
 export interface FilterSubFilterBuilder
@@ -47,88 +45,52 @@ export interface FilterBuilder<B> {
   notFilter<K extends keyof AllQueries>(type: K, config: AllQueries[K], subfilters?: FilterSubFilterFn): B
   notFilter(filter: Query): B
 
-  getFilter(): Query
+  getFilter(): FilterData
   hasFilter(): boolean
 }
 
-export function buildFilterBuilder<B>(this: B, initialData?: FilterData): FilterBuilder<B> {
+export function buildFilterBuilder<B>(this: B, isInFilterContext: boolean, initialData?: FilterData): FilterBuilder<B> {
   const data: FilterData = initialData || {
-    filters: {
+    clauses: {
       and: [],
       or: [],
       not: [],
     },
   }
 
-  function pushImmutable(this: B, bool: keyof typeof data['filters'], filter: Query) {
-    return buildFilterBuilder.call(this, {
-      ...data,
-      filters: {
-        ...data.filters,
-        [bool]: [...data.filters[bool], filter],
-      },
-    })
-  }
+  const makeQuery = pushQuery.bind(undefined, isInFilterContext, data)
 
-  function addFilter(
-    this: B,
-    bool: keyof typeof data['filters'],
-    typeOrFilter: any,
-    fieldOrConfig?: any,
-    config?: any,
-  ): B {
-    if (isKeyofFieldQuery(typeOrFilter) && is.string(fieldOrConfig)) {
-      if (isFieldConfig(config)) {
-        // TODO: do we need to cast through any?
-        const fieldQueryConfig = ({
-          [fieldOrConfig]: config,
-        } as any) as FieldQueryConfig
-
-        // TODO: do we need to cast through any?
-        const filter = ({
-          [typeOrFilter]: fieldQueryConfig,
-        } as any) as Query
-
-        return pushImmutable.call(this, bool, filter)
-      }
-    } else if (isKeyofQuery(typeOrFilter) && is.plainObject(fieldOrConfig)) {
-      const filter = {
-        [typeOrFilter]: fieldOrConfig,
-      } as Query
-
-      return pushImmutable.call(this, bool, filter)
-    }
-
-    throw new TypeError('invalid arguments')
+  function next(this: B, nextData: FilterData) {
+    return buildFilterBuilder.call(this, isInFilterContext, nextData)
   }
 
   return Object.assign({}, this, {
-    filter(typeOrFilter: any, fieldOrConfig?: any, config?: any) {
-      return addFilter.call(this, 'and', typeOrFilter, fieldOrConfig, config)
+    filter(one: any, two?: any, three?: any, four?: any) {
+      return next.call(this, makeQuery('and', one, two, three, four))
     },
 
-    andFilter(typeOrFilter: any, fieldOrConfig?: any, config?: any) {
-      return addFilter.call(this, 'and', typeOrFilter, fieldOrConfig, config)
+    andFilter(one: any, two?: any, three?: any, four?: any) {
+      return next.call(this, makeQuery('and', one, two, three, four))
     },
 
-    orFilter(typeOrFilter: any, fieldOrConfig?: any, config?: any) {
-      return addFilter.call(this, 'or', typeOrFilter, fieldOrConfig, config)
+    orFilter(one: any, two?: any, three?: any, four?: any) {
+      return next.call(this, makeQuery('or', one, two, three, four))
     },
 
-    notFilter(typeOrFilter: any, fieldOrConfig?: any, config?: any) {
-      return addFilter.call(this, 'not', typeOrFilter, fieldOrConfig, config)
+    notFilter(one: any, two?: any, three?: any, four?: any) {
+      return next.call(this, makeQuery('not', one, two, three, four))
     },
 
     getFilter() {
-      return {bool: data.filters} as Query
+      return data
     },
 
     hasFilter() {
-      return false
+      return !!(data.clauses.and.length || data.clauses.or.length || data.clauses.not.length)
     },
   })
 }
 
-export function filterBuilder<B>(this: B) {
-  return buildFilterBuilder.apply(this)
+export function filterBuilder<B>(this: B, isInFilterContext: boolean) {
+  return buildFilterBuilder.call(this, isInFilterContext)
 }
