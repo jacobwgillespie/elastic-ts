@@ -1,32 +1,55 @@
 import is from '@sindresorhus/is'
 
 import {Query, AllQueries, AllFieldQueryConfigs, FieldQueryConfig} from '../types/queries'
-import {FilterData} from './utils'
+import {FilterData, isKeyofFieldQuery, isKeyofQuery, isFieldConfig} from './utils'
+import {QueryBuilder} from './queryBuilder'
+
+export interface FilterSubFilterBuilder
+  extends QueryBuilder<FilterSubFilterBuilder>,
+    FilterBuilder<FilterSubFilterBuilder> {}
+
+export type FilterSubFilterFn = (sub: FilterSubFilterBuilder) => FilterSubFilterBuilder
 
 export interface FilterBuilder<B> {
-  filter<K extends keyof AllFieldQueryConfigs>(type: K, field: string, config: AllFieldQueryConfigs[K]): B
-  filter<K extends keyof AllQueries>(type: K, config: AllQueries[K]): B
+  filter<K extends keyof AllFieldQueryConfigs>(
+    type: K,
+    field: string,
+    config: AllFieldQueryConfigs[K],
+    subfilters?: FilterSubFilterFn,
+  ): B
+  filter<K extends keyof AllQueries>(type: K, config: AllQueries[K], subfilters?: FilterSubFilterFn): B
   filter(filter: Query): B
 
-  andFilter<K extends keyof AllFieldQueryConfigs>(type: K, field: string, config: AllFieldQueryConfigs[K]): B
-  andFilter<K extends keyof AllQueries>(type: K, config: AllQueries[K]): B
+  andFilter<K extends keyof AllFieldQueryConfigs>(
+    type: K,
+    field: string,
+    config: AllFieldQueryConfigs[K],
+    subfilters?: FilterSubFilterFn,
+  ): B
+  andFilter<K extends keyof AllQueries>(type: K, config: AllQueries[K], subfilters?: FilterSubFilterFn): B
   andFilter(filter: Query): B
 
-  orFilter<K extends keyof AllFieldQueryConfigs>(type: K, field: string, config: AllFieldQueryConfigs[K]): B
-  orFilter<K extends keyof AllQueries>(type: K, config: AllQueries[K]): B
+  orFilter<K extends keyof AllFieldQueryConfigs>(
+    type: K,
+    field: string,
+    config: AllFieldQueryConfigs[K],
+    subfilters?: FilterSubFilterFn,
+  ): B
+  orFilter<K extends keyof AllQueries>(type: K, config: AllQueries[K], subfilters?: FilterSubFilterFn): B
   orFilter(filter: Query): B
 
-  notFilter<K extends keyof AllFieldQueryConfigs>(type: K, field: string, config: AllFieldQueryConfigs[K]): B
-  notFilter<K extends keyof AllQueries>(type: K, config: AllQueries[K]): B
+  notFilter<K extends keyof AllFieldQueryConfigs>(
+    type: K,
+    field: string,
+    config: AllFieldQueryConfigs[K],
+    subfilters?: FilterSubFilterFn,
+  ): B
+  notFilter<K extends keyof AllQueries>(type: K, config: AllQueries[K], subfilters?: FilterSubFilterFn): B
   notFilter(filter: Query): B
 
   getFilter(): Query
   hasFilter(): boolean
 }
-
-const isKeyofFieldQuery = (v: any): v is keyof AllFieldQueryConfigs => is.string(v)
-const isKeyofQuery = (v: any): v is keyof AllQueries => is.string(v)
-const isFieldConfig = <T extends keyof AllFieldQueryConfigs>(_v: any): _v is AllFieldQueryConfigs[T] => true
 
 export function buildFilterBuilder<B>(this: B, initialData?: FilterData): FilterBuilder<B> {
   const data: FilterData = initialData || {
