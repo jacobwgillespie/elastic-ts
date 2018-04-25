@@ -2,16 +2,18 @@ sudo: false
 language: node_js
 cache: yarn
 node_js:
-- '8'
-- '6'
+  - '12'
+  - '10'
+  - '8'
 
 before_install:
-- curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.6.0
-- export PATH=$HOME/.yarn/bin:$PATH
+  - curl -o- -L https://yarnpkg.com/install.sh | bash -s -- --version 1.19.2
+  - export PATH=$HOME/.yarn/bin:$PATH
 
 script:
-- yarn build
-- yarn test:types
+  - yarn build
+  - yarn lint
+  - yarn test
 
 deploy:
   provider: npm

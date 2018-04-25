@@ -141,6 +141,8 @@ export interface QueryStringQuery {
     quote_field_suffix?: string
     auto_generate_synonyms_phrase_query?: boolean
     rewrite?: any
+    fields?: string[]
+    tie_breaker?: number
   }
 }
 
@@ -237,6 +239,7 @@ export interface RangeFieldConfig {
     to?: string | number
     format?: string
     time_zone?: string
+    boost?: number
   }
 }
 export interface RangeQuery {
@@ -290,7 +293,7 @@ export interface RegexpFieldConfig {
         value: string
         flags?: string
         boost?: number
-        max_determined_states?: number
+        max_determinized_states?: number
       }
 }
 export interface RegexpQuery {
@@ -363,13 +366,17 @@ export interface ConstantScoreQuery {
   }
 }
 
+export interface BoolQueryConfig {
+  must?: Query | Query[]
+  filter?: Query | Query[]
+  should?: Query | Query[]
+  must_not?: Query | Query[]
+  minimum_should_match?: number | string
+  boost?: number
+}
+
 export interface BoolQuery {
-  bool: {
-    must?: Query | Query[]
-    filter?: Query | Query[]
-    should?: Query | Query[]
-    must_not?: Query | Query[]
-  }
+  bool: BoolQueryConfig
 }
 
 export interface DisMaxQuery {
@@ -382,7 +389,9 @@ export interface DisMaxQuery {
 
 export interface FunctionScoreQuery {
   function_score: {
+    functions?: (FunctionScoreQuery['function_score'] & {filter?: Query})[]
     query?: Query
+    max_boost?: number
     boost?: number | string
     score_mode?: 'multiply' | 'sum' | 'avg' | 'first' | 'max' | 'min'
     boost_mode?: 'multiply' | 'replace' | 'sum' | 'avg' | 'max' | 'min'
@@ -605,7 +614,7 @@ export interface PercolateQuery {
         id: string
         routing?: string
         preference?: string
-        version?: string
+        version?: string | number
       }
   )
 }

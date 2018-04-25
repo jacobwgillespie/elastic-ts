@@ -2,15 +2,19 @@
   "compilerOptions": {
     "target": "es6",
     "module": "es2015",
-    "lib": ["es2015", "es2016"],
-    "rootDir": "./src",
+    "lib": ["es2016"],
     "declaration": true,
+    "sourceMap": true,
+    "rootDir": ".",
+    "importHelpers": true,
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true
   },
-  "exclude": ["test"]
+  "include": ["src", "types", "test"]
 }

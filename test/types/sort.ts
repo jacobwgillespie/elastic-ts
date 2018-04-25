@@ -2,10 +2,10 @@
  * The following query examples were taken from the Elasticsearch documentation
  */
 
-import {SearchBody} from '../..'
+import {SearchBody} from '../../src'
 
 // @ts-ignore
-let body: SearchBody
+let body: SearchBody // eslint-disable-line @typescript-eslint/no-unused-vars
 
 body = {
   sort: [{post_date: {order: 'asc'}}, 'user', {name: 'desc'}, {age: 'desc'}, '_score'],
@@ -178,7 +178,10 @@ body = {
   sort: [
     {
       _geo_distance: {
-        'pin.location': [[-70, 40], [-71, 42]],
+        'pin.location': [
+          [-70, 40],
+          [-71, 42],
+        ],
         order: 'asc',
         unit: 'km',
       },

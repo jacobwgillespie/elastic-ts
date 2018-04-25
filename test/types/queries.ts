@@ -2,10 +2,10 @@
  * The following query examples were taken from the Elasticsearch documentation
  */
 
-import {SearchBody} from '../..'
+import {SearchBody} from '../../src'
 
 // @ts-ignore
-let body: SearchBody
+let body: SearchBody // eslint-disable-line @typescript-eslint/no-unused-vars
 
 // ******************************************
 // * Match all query                        *
