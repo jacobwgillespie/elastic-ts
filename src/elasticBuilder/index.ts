@@ -13,7 +13,9 @@ export interface ElasticBuilder
   build(): SearchBody
 }
 
-const clone = (v: any) => JSON.parse(JSON.stringify(v))
+function clone<T>(v: T): T {
+  return JSON.parse(JSON.stringify(v))
+}
 
 function buildElasticBuilder(): ElasticBuilder {
   return {
