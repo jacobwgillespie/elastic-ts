@@ -23,7 +23,7 @@
   ],
   "scripts": {
     "build": "microbundle -f es,cjs --external all",
-    "dev": "microbundle watch -f es,cjs --external all",
+    "dev": "microbundle watch -f es --external all",
     "precommit": "pretty-quick --staged",
     "test:types": "tsc --project test/types"
   },
