@@ -1,6 +1,7 @@
 import is from '@sindresorhus/is'
 
 import {Query, AllQueries, AllFieldQueryConfigs, FieldQueryConfig} from '../types/queries'
+import {FilterData} from './utils'
 
 export interface QueryBuilder<B> {
   query<K extends keyof AllFieldQueryConfigs>(type: K, field: string, config: AllFieldQueryConfigs[K]): B
@@ -27,34 +28,33 @@ const isKeyofFieldQuery = (v: any): v is keyof AllFieldQueryConfigs => is.string
 const isKeyofQuery = (v: any): v is keyof AllQueries => is.string(v)
 const isFieldConfig = <T extends keyof AllFieldQueryConfigs>(_v: any): _v is AllFieldQueryConfigs[T] => true
 
-export interface QueryBuilderData {
-  query: {and: Query[]; or: Query[]; not: Query[]}
-  minimum_should_match?: number
-}
-
-export function buildQueryBuilder<B>(this: B, initialData?: QueryBuilderData): QueryBuilder<B> {
-  console.log('building query builder', initialData)
-
-  const data: QueryBuilderData = initialData || {
-    query: {
+export function buildQueryBuilder<B>(this: B, initialData?: FilterData): QueryBuilder<B> {
+  const data: FilterData = initialData || {
+    filters: {
       and: [],
       or: [],
       not: [],
     },
   }
 
-  function pushImmutable(this: B, bool: keyof typeof data['query'], query: Query) {
+  function pushImmutable(this: B, bool: keyof typeof data['filters'], query: Query) {
     console.log('this', this)
     return buildQueryBuilder.call(this, {
       ...data,
-      query: {
-        ...data.query,
-        [bool]: [...data.query[bool], query],
+      filters: {
+        ...data.filters,
+        [bool]: [...data.filters[bool], query],
       },
     })
   }
 
-  function addQuery(this: B, bool: keyof typeof data['query'], typeOrQuery: any, fieldOrConfig?: any, config?: any): B {
+  function addQuery(
+    this: B,
+    bool: keyof typeof data['filters'],
+    typeOrQuery: any,
+    fieldOrConfig?: any,
+    config?: any,
+  ): B {
     if (isKeyofFieldQuery(typeOrQuery) && is.string(fieldOrConfig)) {
       if (isFieldConfig(config)) {
         // TODO: do we need to cast through any?
@@ -98,7 +98,7 @@ export function buildQueryBuilder<B>(this: B, initialData?: QueryBuilderData): Q
     },
 
     getQuery() {
-      return {bool: data.query} as Query
+      return {bool: data} as Query
     },
 
     hasQuery() {

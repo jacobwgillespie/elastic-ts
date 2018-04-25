@@ -1,6 +1,7 @@
 import is from '@sindresorhus/is'
 
 import {Query, AllQueries, AllFieldQueryConfigs, FieldQueryConfig} from '../types/queries'
+import {FilterData} from './utils'
 
 export interface FilterBuilder<B> {
   filter<K extends keyof AllFieldQueryConfigs>(type: K, field: string, config: AllFieldQueryConfigs[K]): B
@@ -27,15 +28,8 @@ const isKeyofFieldQuery = (v: any): v is keyof AllFieldQueryConfigs => is.string
 const isKeyofQuery = (v: any): v is keyof AllQueries => is.string(v)
 const isFieldConfig = <T extends keyof AllFieldQueryConfigs>(_v: any): _v is AllFieldQueryConfigs[T] => true
 
-export interface FilterBuilderData {
-  filters: {and: Query[]; or: Query[]; not: Query[]}
-  minimum_should_match?: number
-}
-
-export function buildFilterBuilder<B>(this: B, initialData?: FilterBuilderData): FilterBuilder<B> {
-  console.log('building query builder', initialData)
-
-  const data: FilterBuilderData = initialData || {
+export function buildFilterBuilder<B>(this: B, initialData?: FilterData): FilterBuilder<B> {
+  const data: FilterData = initialData || {
     filters: {
       and: [],
       or: [],

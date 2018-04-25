@@ -1,6 +1,18 @@
 import is from '@sindresorhus/is'
 
 import {Sort} from '../types/common'
+import {Query} from '../types/queries'
+import {filterBuilder} from './filterBuilder'
+import {queryBuilder} from './queryBuilder'
+
+export interface FilterData {
+  filters: {
+    and: Query[]
+    or: Query[]
+    not: Query[]
+  }
+  minimum_should_match?: number
+}
 
 export function mergeSort(currentSort: Sort | undefined, sort: Sort): Sort {
   if (!currentSort) {
