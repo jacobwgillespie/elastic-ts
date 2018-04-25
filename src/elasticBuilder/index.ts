@@ -1,9 +1,9 @@
 import {SearchBody} from '../types'
 
-import {AggregationBuilder, aggregationBuilder} from './aggregationBuilder'
-import {FilterBuilder, filterBuilder} from './filterBuilder'
+import {AggregationBuilder, aggregationBuilder, SubAggregationBuilder, SubAggregationFn} from './aggregationBuilder'
+import {FilterBuilder, filterBuilder, FilterSubFilterBuilder, FilterSubFilterFn} from './filterBuilder'
 import {OptionsBuilder, optionsBuilder} from './optionsBuilder'
-import {QueryBuilder, queryBuilder} from './queryBuilder'
+import {QueryBuilder, queryBuilder, QuerySubFilterBuilder, QuerySubFilterFn} from './queryBuilder'
 
 export interface ElasticBuilder
   extends AggregationBuilder<ElasticBuilder>,
@@ -36,4 +36,16 @@ function buildElasticBuilder(): ElasticBuilder {
 
 export function elasticBuilder() {
   return buildElasticBuilder.call({})
+}
+
+export {
+  AggregationBuilder,
+  SubAggregationBuilder,
+  SubAggregationFn,
+  FilterBuilder,
+  FilterSubFilterBuilder,
+  FilterSubFilterFn,
+  QueryBuilder,
+  QuerySubFilterBuilder,
+  QuerySubFilterFn,
 }
