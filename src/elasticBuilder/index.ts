@@ -21,6 +21,8 @@ export interface ElasticBuilder
 
   size(quantity: number | undefined): ElasticBuilder
 
+  rawOption<K extends keyof SearchBody>(k: K, v: SearchBody[K]): ElasticBuilder
+
   build(): SearchBody
 }
 
@@ -67,6 +69,13 @@ function buildElasticBuilder(initialData: SearchBody = {}): ElasticBuilder {
         })
       }
       return this
+    },
+
+    rawOption(k: any, v: any) {
+      return buildElasticBuilder({
+        ...body,
+        [k]: v,
+      })
     },
 
     build() {
