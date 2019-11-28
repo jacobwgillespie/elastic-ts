@@ -10,16 +10,16 @@ A TypeScript module for working with Elasticsearch.
 
 ### Goals
 
-* Provide TypeScript types for Elasticsearch queries
-* Provide a typed query body builder with an immutable API
+- Provide TypeScript types for Elasticsearch queries
+- Provide a typed query body builder with an immutable API
 
 ### Non-goals
 
-* Replace the official Elasticsearch API client
+- Replace the official Elasticsearch API client
 
 ## Requirements
 
-* TypeScript 2.8 - this project uses conditional types which were introduced in TypeScript 2.8
+- TypeScript 2.8 - this project uses conditional types which were introduced in TypeScript 2.8
 
 ## Installation
 
@@ -44,9 +44,9 @@ const body: SearchBody = {
 ### Builder
 
 ```typescript
-import {elasticBuilder} from 'elastic-ts'
+import {esBuilder} from 'elastic-ts'
 
-const body = elasticBuilder()
+const body = esBuilder()
   .query('match_all', {})
   .filter('terms', 'field', ['one', 'two'])
   .build()
@@ -59,5 +59,3 @@ The query builder API is heavily inspired by [bodybuilder](https://github.com/da
 ### License
 
 The MIT license. Copyright (c) 2018 Jacob Gillespie. See `LICENSE`.
-
-Code from Bodybuilder Copyright (c) 2016 Daniel Paz-Soldan.

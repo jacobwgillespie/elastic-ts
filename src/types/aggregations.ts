@@ -162,7 +162,7 @@ export interface ChildrenAggregation {
 export interface CompositeAggregation {
   composite: {
     size?: number
-    sources: ({
+    sources: {
       [name: string]:
         | {terms: ({field: string} | {script: Script}) & {order?: SortOrder}}
         | {
@@ -178,7 +178,7 @@ export interface CompositeAggregation {
               order?: SortOrder
             }
           }
-    })[]
+    }[]
     after?: {[source: string]: PrimitiveValue}
   }
 }
@@ -261,6 +261,7 @@ export interface HistogramAggregation {
     }
     order?: {[field: string]: SortOrder}
     missing?: PrimitiveValue
+    keyed?: boolean
   }
 }
 
@@ -289,7 +290,8 @@ export interface RangeAggregation {
     ranges: (
       | {from: string | number; key?: string}
       | {to: string | number; key?: string}
-      | {from: string | number; to: string | number; key?: string})[]
+      | {from: string | number; to: string | number; key?: string}
+    )[]
     keyed?: boolean
   }
 }
@@ -317,6 +319,10 @@ export interface SignificantTermsAggregation {
     shard_min_doc_count?: number
     background_filter?: Query
     execution_hint?: 'global_ordinals' | 'map'
+    include?: string | string[]
+    exclude?: string | string[]
+    size?: number
+    shard_size?: number
   }
 }
 
@@ -344,6 +350,7 @@ export interface TermsAggregation {
     min_doc_count?: number
     shard_min_doc_count?: number
     include?: string | string[] | {partition: number; num_partitions: number}
+    exclude?: string | string[]
     collect_mode?: CollectMode
     execution_hint?: 'map' | 'global_ordinals'
     missing?: any
@@ -502,7 +509,8 @@ export interface MovingAverageBucketAggregation {
           period?: number
           pad?: boolean
         }
-      })
+      }
+  )
 }
 
 export interface CumulativeSumAggregation {

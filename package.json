@@ -6,37 +6,35 @@
   "homepage": "https://github.com/jacobwgillespie/elastic-ts",
   "repository": "git://github.com/jacobwgillespie/elastic-ts.git",
   "license": "MIT",
-  "main": "dist/elastic-ts.js",
-  "module": "dist/elastic-ts.m.js",
-  "typings": "dist/elastic-ts.d.ts",
-  "source": "src/elastic-ts.ts",
+  "main": "dist/index.js",
+  "module": "dist/elastic-ts.esm.js",
+  "types": "dist/index.d.ts",
   "sideEffects": false,
   "files": [
-    "dist",
-    "CHANGELOG.md",
-    "LICENSE",
-    "README.md"
+    "dist"
   ],
   "keywords": [
     "typescript",
     "elasticsearch"
   ],
   "scripts": {
-    "build": "microbundle -f es,cjs --external all",
-    "dev": "microbundle watch -f es --external all",
-    "precommit": "pretty-quick --staged",
-    "test:types": "tsc --project test/types"
+    "build": "tsdx build",
+    "lint": "tsdx lint",
+    "test": "tsdx test",
+    "watch": "tsdx watch"
   },
   "dependencies": {
-    "@sindresorhus/is": "^0.8.0"
+    "@sindresorhus/is": "^1.2.0"
   },
   "devDependencies": {
-    "@types/node": "^9.6.6",
-    "husky": "^0.14.3",
-    "microbundle": "^0.4.4",
-    "prettier": "^1.12.1",
-    "pretty-quick": "^1.4.1",
-    "typescript": "^2.8.3"
+    "@types/jest": "^24.0.23",
+    "husky": "^3.1.0",
+    "jest": "^24.9.0",
+    "prettier": "^1.19.1",
+    "ts-jest": "^24.2.0",
+    "tsdx": "^0.11.0",
+    "tslib": "^1.10.0",
+    "typescript": "^3.7.2"
   },
   "prettier": {
     "bracketSpacing": false,
@@ -44,5 +42,10 @@
     "semi": false,
     "singleQuote": true,
     "trailingComma": "all"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "tsdx lint"
+    }
   }
 }

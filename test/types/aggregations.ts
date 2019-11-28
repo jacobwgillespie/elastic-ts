@@ -2,10 +2,10 @@
  * The following aggregation examples were taken from the Elasticsearch documentation
  */
 
-import {SearchBody} from '../..'
+import {SearchBody} from '../../src'
 
 // @ts-ignore
-let body: SearchBody
+let body!: SearchBody // eslint-disable-line @typescript-eslint/no-unused-vars
 
 // ******************************************
 // * Metrics aggregations                   *
@@ -1666,7 +1666,10 @@ body = {
     ip_ranges: {
       ip_range: {
         field: 'ip',
-        ranges: [{key: 'infinity', to: '10.0.0.5'}, {key: 'and-beyond', from: '10.0.0.5'}],
+        ranges: [
+          {key: 'infinity', to: '10.0.0.5'},
+          {key: 'and-beyond', from: '10.0.0.5'},
+        ],
         keyed: true,
       },
     },
@@ -1732,7 +1735,11 @@ body = {
       range: {
         field: 'price',
         keyed: true,
-        ranges: [{key: 'cheap', to: 100}, {key: 'average', from: 100, to: 200}, {key: 'expensive', from: 200}],
+        ranges: [
+          {key: 'cheap', to: 100},
+          {key: 'average', from: 100, to: 200},
+          {key: 'expensive', from: 200},
+        ],
       },
     },
   },
