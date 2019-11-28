@@ -606,7 +606,8 @@ export interface PercolateQuery {
         routing?: string
         preference?: string
         version?: string
-      })
+      }
+  )
 }
 
 export interface WrapperQuery {
@@ -615,8 +616,33 @@ export interface WrapperQuery {
   }
 }
 
-export type SpecializedQuery = MoreLikeThisQuery | ScriptQuery | PercolateQuery | WrapperQuery
-export type AllSpecializedQueries = MoreLikeThisQuery & ScriptQuery & PercolateQuery & WrapperQuery
+export interface RankFeatureQuery {
+  rank_feature: {
+    field: string
+    boost?: number
+  } & (
+    | {
+        saturation: {
+          pivot?: number
+        }
+      }
+    | {
+        log: {
+          scaling_factor: number
+        }
+      }
+    | {
+        sigmoid: {
+          pivot: number
+          exponent: number
+        }
+      }
+    | {}
+  )
+}
+
+export type SpecializedQuery = MoreLikeThisQuery | ScriptQuery | PercolateQuery | WrapperQuery | RankFeatureQuery
+export type AllSpecializedQueries = MoreLikeThisQuery & ScriptQuery & PercolateQuery & WrapperQuery & RankFeatureQuery
 
 export type Query =
   | MatchAllQuery

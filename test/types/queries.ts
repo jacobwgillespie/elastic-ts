@@ -1221,7 +1221,10 @@ body = {
           location: {
             shape: {
               type: 'envelope',
-              coordinates: [[13.0, 53.0], [14.0, 52.0]],
+              coordinates: [
+                [13.0, 53.0],
+                [14.0, 52.0],
+              ],
             },
             relation: 'within',
           },
@@ -1515,7 +1518,11 @@ body = {
       filter: {
         geo_polygon: {
           'person.location': {
-            points: [{lat: 40, lon: -70}, {lat: 30, lon: -80}, {lat: 20, lon: -90}],
+            points: [
+              {lat: 40, lon: -70},
+              {lat: 30, lon: -80},
+              {lat: 20, lon: -90},
+            ],
           },
         },
       },
@@ -1532,7 +1539,11 @@ body = {
       filter: {
         geo_polygon: {
           'person.location': {
-            points: [[-70, 40], [-80, 30], [-90, 20]],
+            points: [
+              [-70, 40],
+              [-80, 30],
+              [-90, 20],
+            ],
           },
         },
       },
@@ -1823,6 +1834,84 @@ body = {
   query: {
     wrapper: {
       query: 'eyJ0ZXJtIiA6IHsgInVzZXIiIDogIktpbWNoeSIgfX0=',
+    },
+  },
+}
+
+// Rank Feature Query
+
+body = {
+  query: {
+    bool: {
+      must: [
+        {
+          match: {
+            content: '2016',
+          },
+        },
+      ],
+      should: [
+        {
+          rank_feature: {
+            field: 'pagerank',
+          },
+        },
+        {
+          rank_feature: {
+            field: 'url_length',
+            boost: 0.1,
+          },
+        },
+        {
+          rank_feature: {
+            field: 'topics.sports',
+            boost: 0.4,
+          },
+        },
+      ],
+    },
+  },
+}
+
+body = {
+  query: {
+    rank_feature: {
+      field: 'pagerank',
+      saturation: {
+        pivot: 8,
+      },
+    },
+  },
+}
+
+body = {
+  query: {
+    rank_feature: {
+      field: 'pagerank',
+      saturation: {},
+    },
+  },
+}
+
+body = {
+  query: {
+    rank_feature: {
+      field: 'pagerank',
+      log: {
+        scaling_factor: 4,
+      },
+    },
+  },
+}
+
+body = {
+  query: {
+    rank_feature: {
+      field: 'pagerank',
+      sigmoid: {
+        pivot: 7,
+        exponent: 0.6,
+      },
     },
   },
 }
