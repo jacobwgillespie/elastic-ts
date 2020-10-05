@@ -1,14 +1,4 @@
-export type Maybe<T> = T | null
-
 export type NotFunction<T> = T extends Function ? never : T
-
-export type StringKeyOf<T> = Extract<keyof T, string>
-
-export type StringKeysOf<T> = StringKeyOf<T>[]
-
-export type ValueOf<T> = T[keyof T]
-
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
 
 export type PlainObject = NotFunction<object>
 
