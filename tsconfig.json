@@ -1,12 +1,11 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "es2015",
-    "lib": ["es2016"],
-    "declaration": true,
+    "noEmit": true,
+    "target": "es2020",
+    "module": "commonjs",
+    "lib": ["es2020"],
     "sourceMap": true,
-    "rootDir": ".",
-    "importHelpers": true,
+    "rootDir": "src",
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
@@ -14,7 +13,8 @@
     "noFallthroughCasesInSwitch": true,
     "moduleResolution": "node",
     "esModuleInterop": true,
+    "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src", "types", "test"]
+  "exclude": ["dist", "test"]
 }

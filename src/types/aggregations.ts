@@ -1,4 +1,4 @@
-import {Script, PrimitiveValue, SortOrder, Coordinate, PrimitiveValueArray, Sort} from './common'
+import {Coordinate, PrimitiveValue, PrimitiveValueArray, Script, Sort, SortOrder} from './common'
 import {Query} from './queries'
 
 export type CollectMode = 'breadth_first' | 'depth_first'

@@ -1,10 +1,8 @@
-import {esBuilder} from '../src'
+import {esBuilder} from '..'
 
 describe('esBuilder - Aggregations', () => {
   it('avg aggregation', () => {
-    const result = esBuilder()
-      .aggregation('agg_avg_grade', 'avg', 'grade')
-      .build()
+    const result = esBuilder().aggregation('agg_avg_grade', 'avg', 'grade').build()
 
     expect(result).toEqual({
       aggs: {
@@ -18,9 +16,7 @@ describe('esBuilder - Aggregations', () => {
   })
 
   it('cardinality aggregation', () => {
-    const result = esBuilder()
-      .aggregation('agg_cardinality_author', 'cardinality', 'author')
-      .build()
+    const result = esBuilder().aggregation('agg_cardinality_author', 'cardinality', 'author').build()
 
     expect(result).toEqual({
       aggs: {
@@ -34,9 +30,7 @@ describe('esBuilder - Aggregations', () => {
   })
 
   it('extended_stats aggregation', () => {
-    const result = esBuilder()
-      .aggregation('agg_extended_stats_grade', 'extended_stats', 'grade')
-      .build()
+    const result = esBuilder().aggregation('agg_extended_stats_grade', 'extended_stats', 'grade').build()
 
     expect(result).toEqual({
       aggs: {
@@ -50,9 +44,7 @@ describe('esBuilder - Aggregations', () => {
   })
 
   it('geo_bounds aggregation', () => {
-    const result = esBuilder()
-      .aggregation('agg_geo_bounds_location', 'geo_bounds', 'location')
-      .build()
+    const result = esBuilder().aggregation('agg_geo_bounds_location', 'geo_bounds', 'location').build()
 
     expect(result).toEqual({
       aggs: {
@@ -66,9 +58,7 @@ describe('esBuilder - Aggregations', () => {
   })
 
   it('geo_centroid aggregation', () => {
-    const result = esBuilder()
-      .aggregation('agg_geo_centroid_location', 'geo_centroid', 'location')
-      .build()
+    const result = esBuilder().aggregation('agg_geo_centroid_location', 'geo_centroid', 'location').build()
 
     expect(result).toEqual({
       aggs: {
@@ -82,9 +72,7 @@ describe('esBuilder - Aggregations', () => {
   })
 
   it('max aggregation', () => {
-    const result = esBuilder()
-      .aggregation('agg_max_price', 'max', 'price')
-      .build()
+    const result = esBuilder().aggregation('agg_max_price', 'max', 'price').build()
 
     expect(result).toEqual({
       aggs: {
@@ -98,9 +86,7 @@ describe('esBuilder - Aggregations', () => {
   })
 
   it('min aggregation', () => {
-    const result = esBuilder()
-      .aggregation('agg_min_price', 'min', 'price')
-      .build()
+    const result = esBuilder().aggregation('agg_min_price', 'min', 'price').build()
 
     expect(result).toEqual({
       aggs: {
@@ -205,9 +191,7 @@ describe('esBuilder - Aggregations', () => {
   })
 
   it('stats aggregation', () => {
-    const result = esBuilder()
-      .aggregation('agg_stats_grade', 'stats', 'grade')
-      .build()
+    const result = esBuilder().aggregation('agg_stats_grade', 'stats', 'grade').build()
 
     expect(result).toEqual({
       aggs: {
@@ -221,9 +205,7 @@ describe('esBuilder - Aggregations', () => {
   })
 
   it('sum aggregation', () => {
-    const result = esBuilder()
-      .aggregation('agg_sum_change', 'sum', 'change')
-      .build()
+    const result = esBuilder().aggregation('agg_sum_change', 'sum', 'change').build()
 
     expect(result).toEqual({
       aggs: {
@@ -237,9 +219,7 @@ describe('esBuilder - Aggregations', () => {
   })
 
   it('value_count aggregation', () => {
-    const result = esBuilder()
-      .aggregation('agg_value_count_grade', 'value_count', 'grade')
-      .build()
+    const result = esBuilder().aggregation('agg_value_count_grade', 'value_count', 'grade').build()
 
     expect(result).toEqual({
       aggs: {
@@ -254,8 +234,8 @@ describe('esBuilder - Aggregations', () => {
 
   it('children aggregation', () => {
     const result = esBuilder()
-      .aggregation('top-tags', 'terms', 'tags.keyword', {size: 10}, a1 => {
-        return a1.aggregation('to-answers', 'children', {type: 'answer'}, a2 => {
+      .aggregation('top-tags', 'terms', 'tags.keyword', {size: 10}, (a1) => {
+        return a1.aggregation('to-answers', 'children', {type: 'answer'}, (a2) => {
           return a2.aggregation('top-names', 'terms', 'owner.display_name.keyword', {size: 10})
         })
       })
@@ -289,9 +269,7 @@ describe('esBuilder - Aggregations', () => {
   })
 
   it('date_histogram aggregation', () => {
-    const result = esBuilder()
-      .aggregation('agg_date_histogram_grade', 'date_histogram', 'grade')
-      .build()
+    const result = esBuilder().aggregation('agg_date_histogram_grade', 'date_histogram', 'grade').build()
 
     expect(result).toEqual({
       aggs: {
@@ -334,7 +312,7 @@ describe('esBuilder - Aggregations', () => {
         {
           shard_size: 200,
         },
-        a => {
+        (a) => {
           return a.aggregation('keywords', 'significant_terms', 'text')
         },
       )
@@ -361,7 +339,7 @@ describe('esBuilder - Aggregations', () => {
 
   it('filter aggregation', () => {
     const result = esBuilder()
-      .aggregation('agg_filter_red_products', 'filter', 'red_products', a => {
+      .aggregation('agg_filter_red_products', 'filter', 'red_products', (a) => {
         return a.filter('term', 'color', 'red').aggregation('avg_price', 'avg', 'price')
       })
       .build()
@@ -404,7 +382,7 @@ describe('esBuilder - Aggregations', () => {
 
   it('pipeline aggregation', () => {
     const result = esBuilder()
-      .aggregation('sales_per_month', 'date_histogram', 'date', {interval: 'month'}, a => {
+      .aggregation('sales_per_month', 'date_histogram', 'date', {interval: 'month'}, (a) => {
         return a.aggregation('sales', 'sum', 'price')
       })
       .aggregation('max_monthly_sales', 'max_bucket', {buckets_path: 'sales_per_month>sales'})

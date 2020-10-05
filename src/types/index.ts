@@ -1,6 +1,6 @@
 import {Aggregations} from './aggregations'
+import {PrimitiveValue, Script, Sort} from './common'
 import {Query} from './queries'
-import {Sort, Script, PrimitiveValue} from './common'
 
 export interface Highlight {
   type?: 'unified' | 'plain' | 'fvh'

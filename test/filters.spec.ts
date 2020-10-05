@@ -1,10 +1,8 @@
-import {esBuilder} from '../src'
+import {esBuilder} from '..'
 
 describe('esBuilder - Filters', () => {
   it('filter term', () => {
-    const result = esBuilder()
-      .filter('term', 'field', 'value')
-      .build()
+    const result = esBuilder().filter('term', 'field', 'value').build()
 
     expect(result).toEqual({
       query: {
@@ -19,7 +17,7 @@ describe('esBuilder - Filters', () => {
 
   it('filter nested', () => {
     const result = esBuilder()
-      .filter('constant_score', {}, f => f.filter('term', 'field', 'value'))
+      .filter('constant_score', {}, (f) => f.filter('term', 'field', 'value'))
       .build()
 
     expect(result).toEqual({

@@ -51,7 +51,7 @@ export function buildBody(data: QueryData) {
   const {aggregations, filter, query} = data
 
   function buildClauses(clauses: WithBuilderFns<FilterArgs | QueryArgs>[]) {
-    return clauses.map(args => buildClause(data, args)).filter(c => c)
+    return clauses.map((args) => buildClause(data, args)).filter((c) => c)
   }
 
   const builtFilter = buildBool({
@@ -88,7 +88,7 @@ export function buildBody(data: QueryData) {
   }
 
   if (data.sort.length) {
-    built.sort = deduplicateSort(flatMap(data.sort, args => buildSort(args)))
+    built.sort = deduplicateSort(flatMap(data.sort, (args) => buildSort(args)))
   }
 
   if (is.nonEmptyObject(aggregations)) {

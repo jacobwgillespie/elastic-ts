@@ -1,12 +1,8 @@
-import {esBuilder} from '../src'
+import {esBuilder} from '..'
 
 describe('esBuilder', () => {
   it('generates expected queries', () => {
-    expect(
-      esBuilder()
-        .filter('term', 'field', 'value')
-        .build(),
-    ).toEqual({
+    expect(esBuilder().filter('term', 'field', 'value').build()).toEqual({
       query: {
         bool: {
           filter: {
@@ -20,9 +16,7 @@ describe('esBuilder', () => {
   })
 
   it('should build query with no field', () => {
-    const result = esBuilder()
-      .query('match_all', {})
-      .build()
+    const result = esBuilder().query('match_all', {}).build()
 
     expect(result).toEqual({
       query: {
@@ -32,9 +26,7 @@ describe('esBuilder', () => {
   })
 
   it('should build query with field but no value', () => {
-    const result = esBuilder()
-      .query('exists', 'user')
-      .build()
+    const result = esBuilder().query('exists', 'user').build()
 
     expect(result).toEqual({
       query: {
@@ -46,9 +38,7 @@ describe('esBuilder', () => {
   })
 
   it('should build filter without query', () => {
-    const result = esBuilder()
-      .filter('term', 'user', 'kimchy')
-      .build()
+    const result = esBuilder().filter('term', 'user', 'kimchy').build()
 
     expect(result).toEqual({
       query: {
@@ -64,10 +54,7 @@ describe('esBuilder', () => {
   })
 
   it('should create query and filter', () => {
-    const result = esBuilder()
-      .query('exists', 'user')
-      .filter('term', 'user', 'kimchy')
-      .build()
+    const result = esBuilder().query('exists', 'user').filter('term', 'user', 'kimchy').build()
 
     expect(result).toEqual({
       query: {
@@ -88,10 +75,7 @@ describe('esBuilder', () => {
   })
 
   it('should build a filtered query', () => {
-    const result = esBuilder()
-      .query('match', 'message', 'this is a test')
-      .filter('term', 'user', 'kimchy')
-      .build()
+    const result = esBuilder().query('match', 'message', 'this is a test').filter('term', 'user', 'kimchy').build()
 
     expect(result).toEqual({
       query: {
@@ -112,9 +96,7 @@ describe('esBuilder', () => {
   })
 
   it('should sort with default sort direction', () => {
-    const result = esBuilder()
-      .sort('timestamp')
-      .build()
+    const result = esBuilder().sort('timestamp').build()
 
     expect(result).toEqual({
       sort: [
@@ -208,9 +190,7 @@ describe('esBuilder', () => {
   })
 
   it('should set from on body', () => {
-    const result = esBuilder()
-      .from(10)
-      .build()
+    const result = esBuilder().from(10).build()
 
     expect(result).toEqual({
       from: 10,
@@ -218,9 +198,7 @@ describe('esBuilder', () => {
   })
 
   it('should set size on body', () => {
-    const result = esBuilder()
-      .size(10)
-      .build()
+    const result = esBuilder().size(10).build()
 
     expect(result).toEqual({
       size: 10,
@@ -228,9 +206,7 @@ describe('esBuilder', () => {
   })
 
   it('should set any key-value on body', () => {
-    const result = esBuilder()
-      .rawOption('a', {b: 'c'})
-      .build()
+    const result = esBuilder().rawOption('a', {b: 'c'}).build()
 
     expect(result).toEqual({
       a: {b: 'c'},
@@ -238,9 +214,7 @@ describe('esBuilder', () => {
   })
 
   it('should build query with field and value', () => {
-    const result = esBuilder()
-      .query('term', 'user', 'kimchy')
-      .build()
+    const result = esBuilder().query('term', 'user', 'kimchy').build()
 
     expect(result).toEqual({
       query: {
@@ -252,9 +226,7 @@ describe('esBuilder', () => {
   })
 
   it('should build query with field and object value', () => {
-    const result = esBuilder()
-      .query('range', 'date', {gt: 'now-1d'})
-      .build()
+    const result = esBuilder().query('range', 'date', {gt: 'now-1d'}).build()
 
     expect(result).toEqual({
       query: {
@@ -285,7 +257,7 @@ describe('esBuilder', () => {
 
   it('should build nested queries', () => {
     const result = esBuilder()
-      .query('nested', 'path', 'obj1', q => q.query('match', 'obj1.color', 'blue'))
+      .query('nested', 'path', 'obj1', (q) => q.query('match', 'obj1.color', 'blue'))
       .build()
 
     expect(result).toEqual({
@@ -304,7 +276,7 @@ describe('esBuilder', () => {
 
   it('should nest bool-merged queries', () => {
     const result = esBuilder()
-      .query('nested', 'path', 'obj1', {score_mode: 'avg'}, q => {
+      .query('nested', 'path', 'obj1', {score_mode: 'avg'}, (q) => {
         return q.query('match', 'obj1.name', 'blue').query('range', 'obj1.count', {gt: 5})
       })
       .build()
@@ -334,7 +306,7 @@ describe('esBuilder', () => {
   it('should make this chained nested query', () => {
     const result = esBuilder()
       .query('match', 'title', 'eggs')
-      .query('nested', 'path', 'comments', {score_mode: 'max'}, q =>
+      .query('nested', 'path', 'comments', {score_mode: 'max'}, (q) =>
         q.query('match', 'comments.name', 'john').query('match', 'comments.age', 28),
       )
       .build()
@@ -378,16 +350,16 @@ describe('esBuilder', () => {
 
   it('should create this complex query', () => {
     const result = esBuilder()
-      .query('constant_score', {}, q => {
+      .query('constant_score', {}, (q) => {
         return q
           .orFilter('term', 'created_by.user_id', 'abc')
-          .orFilter('nested', 'path', 'doc_meta', q2 => {
-            return q2.query('constant_score', {}, q3 => {
+          .orFilter('nested', 'path', 'doc_meta', (q2) => {
+            return q2.query('constant_score', {}, (q3) => {
               return q3.filter('term', 'doc_meta.user_id', 'abc')
             })
           })
-          .orFilter('nested', 'path', 'tests', q2 => {
-            return q2.query('constant_score', {}, q3 => {
+          .orFilter('nested', 'path', 'tests', (q2) => {
+            return q2.query('constant_score', {}, (q3) => {
               return q3.filter('term', 'tests.created_by.user_id', 'abc')
             })
           })
@@ -479,9 +451,7 @@ describe('esBuilder', () => {
   })
 
   it('should add a not filter', () => {
-    const result = esBuilder()
-      .notFilter('match', 'message', 'this is a test')
-      .build()
+    const result = esBuilder().notFilter('match', 'message', 'this is a test').build()
 
     expect(result).toEqual({
       query: {
@@ -502,7 +472,7 @@ describe('esBuilder', () => {
 
   it('dynamic filter', () => {
     const result = esBuilder()
-      .filter('constant_score', {}, f => f.filter('term', 'user', 'kimchy'))
+      .filter('constant_score', {}, (f) => f.filter('term', 'user', 'kimchy'))
       .filter('term', 'message', 'this is a test')
       .build()
 
@@ -532,9 +502,9 @@ describe('esBuilder', () => {
 
   it('complex dynamic filter', () => {
     const result = esBuilder()
-      .orFilter(f => f.filter('terms', 'tags', ['Popular']).filter('terms', 'brands', ['A', 'B']))
-      .orFilter(f => f.filter('terms', 'tags', ['Emerging']).filter('terms', 'brands', ['C']))
-      .orFilter(f => f.filter('terms', 'tags', ['Rumor']).filter('terms', 'companies', ['A', 'C', 'D']))
+      .orFilter((f) => f.filter('terms', 'tags', ['Popular']).filter('terms', 'brands', ['A', 'B']))
+      .orFilter((f) => f.filter('terms', 'tags', ['Emerging']).filter('terms', 'brands', ['C']))
+      .orFilter((f) => f.filter('terms', 'tags', ['Rumor']).filter('terms', 'companies', ['A', 'C', 'D']))
       .build()
 
     expect(result).toEqual({
@@ -626,7 +596,7 @@ describe('esBuilder', () => {
 
   it('Nested bool query with must', () => {
     const result = esBuilder()
-      .query(b => b.orQuery('match', 'title', 'Solr').orQuery('match', 'title', 'Elasticsearch'))
+      .query((b) => b.orQuery('match', 'title', 'Solr').orQuery('match', 'title', 'Elasticsearch'))
       .query('match', 'authors', 'clinton gormely')
       .notQuery('match', 'authors', 'radu gheorge')
       .build()
@@ -669,18 +639,8 @@ describe('esBuilder', () => {
 
   it('Invalid nested bool query with more "query"', () => {
     const body = esBuilder()
-      .query(b =>
-        b
-          .query('term', 'field1', 1)
-          .query('term', 'field2', 2)
-          .orQuery('term', 'field3', 3),
-      )
-      .query(b =>
-        b
-          .query('term', 'field4', 10)
-          .query('term', 'field5', 20)
-          .orQuery('term', 'field6', 30),
-      )
+      .query((b) => b.query('term', 'field1', 1).query('term', 'field2', 2).orQuery('term', 'field3', 3))
+      .query((b) => b.query('term', 'field4', 10).query('term', 'field5', 20).orQuery('term', 'field6', 30))
       .build()
 
     expect(body).toEqual({

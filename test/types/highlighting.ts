@@ -2,7 +2,7 @@
  * The following query examples were taken from the Elasticsearch documentation
  */
 
-import {SearchBody} from '../../src'
+import {SearchBody} from '../..'
 
 // @ts-ignore
 let body: SearchBody // eslint-disable-line @typescript-eslint/no-unused-vars
@@ -66,7 +66,6 @@ body = {
                 comment: {
                   query: 'foo bar',
                   slop: 1,
-                  boost: 10.0,
                 },
               },
             },

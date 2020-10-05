@@ -1,10 +1,8 @@
-import {esBuilder} from '../src'
+import {esBuilder} from '..'
 
 describe('esBuilder - Queries', () => {
   it('match_all', () => {
-    const result = esBuilder()
-      .query('match_all', {})
-      .build()
+    const result = esBuilder().query('match_all', {}).build()
 
     expect(result).toEqual({
       query: {
@@ -14,9 +12,7 @@ describe('esBuilder - Queries', () => {
   })
 
   it('match_all with boost', () => {
-    const result = esBuilder()
-      .query('match_all', {boost: 1.2})
-      .build()
+    const result = esBuilder().query('match_all', {boost: 1.2}).build()
 
     expect(result).toEqual({
       query: {
@@ -28,9 +24,7 @@ describe('esBuilder - Queries', () => {
   })
 
   it('match_none', () => {
-    const result = esBuilder()
-      .query('match_none', {})
-      .build()
+    const result = esBuilder().query('match_none', {}).build()
 
     expect(result).toEqual({
       query: {
@@ -40,9 +34,7 @@ describe('esBuilder - Queries', () => {
   })
 
   it('match', () => {
-    const result = esBuilder()
-      .query('match', 'message', 'this is a test')
-      .build()
+    const result = esBuilder().query('match', 'message', 'this is a test').build()
 
     expect(result).toEqual({
       query: {
@@ -54,9 +46,7 @@ describe('esBuilder - Queries', () => {
   })
 
   it('match empty string', () => {
-    const result = esBuilder()
-      .query('match', 'message', '')
-      .build()
+    const result = esBuilder().query('match', 'message', '').build()
 
     expect(result).toEqual({
       query: {
@@ -88,9 +78,7 @@ describe('esBuilder - Queries', () => {
   })
 
   it('match_phrase', () => {
-    const result = esBuilder()
-      .query('match_phrase', 'message', 'this is a test')
-      .build()
+    const result = esBuilder().query('match_phrase', 'message', 'this is a test').build()
 
     expect(result).toEqual({
       query: {
@@ -142,9 +130,7 @@ describe('esBuilder - Queries', () => {
   })
 
   it('query_string', () => {
-    const result = esBuilder()
-      .query('query_string', 'query', 'this AND that OR thus')
-      .build()
+    const result = esBuilder().query('query_string', 'query', 'this AND that OR thus').build()
 
     expect(result).toEqual({
       query: {
@@ -191,9 +177,7 @@ describe('esBuilder - Queries', () => {
   })
 
   it('simple_query_string', () => {
-    const result = esBuilder()
-      .query('simple_query_string', 'query', 'foo bar baz')
-      .build()
+    const result = esBuilder().query('simple_query_string', 'query', 'foo bar baz').build()
 
     expect(result).toEqual({
       query: {
@@ -205,9 +189,7 @@ describe('esBuilder - Queries', () => {
   })
 
   it('term', () => {
-    const result = esBuilder()
-      .query('term', 'user', 'kimchy')
-      .build()
+    const result = esBuilder().query('term', 'user', 'kimchy').build()
 
     expect(result).toEqual({
       query: {
@@ -271,9 +253,7 @@ describe('esBuilder - Queries', () => {
   })
 
   it('terms', () => {
-    const result = esBuilder()
-      .query('terms', 'user', ['kimchy', 'elastic'])
-      .build()
+    const result = esBuilder().query('terms', 'user', ['kimchy', 'elastic']).build()
 
     expect(result).toEqual({
       query: {
@@ -285,9 +265,7 @@ describe('esBuilder - Queries', () => {
   })
 
   it('range', () => {
-    const result = esBuilder()
-      .query('range', 'age', {gte: 10})
-      .build()
+    const result = esBuilder().query('range', 'age', {gte: 10}).build()
 
     expect(result).toEqual({
       query: {
@@ -299,9 +277,7 @@ describe('esBuilder - Queries', () => {
   })
 
   it('exists', () => {
-    const result = esBuilder()
-      .query('exists', 'user')
-      .build()
+    const result = esBuilder().query('exists', 'user').build()
 
     expect(result).toEqual({
       query: {
@@ -313,9 +289,7 @@ describe('esBuilder - Queries', () => {
   })
 
   it('missing', () => {
-    const result = esBuilder()
-      .query('missing', 'user')
-      .build()
+    const result = esBuilder().query('missing', 'user').build()
 
     expect(result).toEqual({
       query: {
@@ -327,9 +301,7 @@ describe('esBuilder - Queries', () => {
   })
 
   it('prefix', () => {
-    const result = esBuilder()
-      .query('prefix', 'user', 'ki')
-      .build()
+    const result = esBuilder().query('prefix', 'user', 'ki').build()
 
     expect(result).toEqual({
       query: {
@@ -341,9 +313,7 @@ describe('esBuilder - Queries', () => {
   })
 
   it('prefix with boost', () => {
-    const result = esBuilder()
-      .query('prefix', 'user', {value: 'ki', boost: 2})
-      .build()
+    const result = esBuilder().query('prefix', 'user', {value: 'ki', boost: 2}).build()
 
     expect(result).toEqual({
       query: {
@@ -358,9 +328,7 @@ describe('esBuilder - Queries', () => {
   })
 
   it('wildcard', () => {
-    const result = esBuilder()
-      .query('wildcard', 'user', 'ki*y')
-      .build()
+    const result = esBuilder().query('wildcard', 'user', 'ki*y').build()
 
     expect(result).toEqual({
       query: {
@@ -372,9 +340,7 @@ describe('esBuilder - Queries', () => {
   })
 
   it('regexp', () => {
-    const result = esBuilder()
-      .query('regexp', 'name.first', 's.*y')
-      .build()
+    const result = esBuilder().query('regexp', 'name.first', 's.*y').build()
 
     expect(result).toEqual({
       query: {
@@ -386,9 +352,7 @@ describe('esBuilder - Queries', () => {
   })
 
   it('fuzzy', () => {
-    const result = esBuilder()
-      .query('fuzzy', 'user', 'ki')
-      .build()
+    const result = esBuilder().query('fuzzy', 'user', 'ki').build()
 
     expect(result).toEqual({
       query: {
@@ -400,9 +364,7 @@ describe('esBuilder - Queries', () => {
   })
 
   it('type', () => {
-    const result = esBuilder()
-      .query('type', 'value', 'my_type')
-      .build()
+    const result = esBuilder().query('type', 'value', 'my_type').build()
 
     expect(result).toEqual({
       query: {
@@ -432,7 +394,7 @@ describe('esBuilder - Queries', () => {
 
   it('constant_score', () => {
     const result = esBuilder()
-      .query('constant_score', {boost: 1.2}, q => {
+      .query('constant_score', {boost: 1.2}, (q) => {
         return q.filter('term', 'user', 'kimchy')
       })
       .build()
@@ -451,7 +413,7 @@ describe('esBuilder - Queries', () => {
 
   it('nested', () => {
     const result = esBuilder()
-      .query('nested', {path: 'obj1', score_mode: 'avg'}, q => {
+      .query('nested', {path: 'obj1', score_mode: 'avg'}, (q) => {
         return q.query('match', 'obj1.name', 'blue').query('range', 'obj1.count', {gt: 5})
       })
       .build()
@@ -480,7 +442,7 @@ describe('esBuilder - Queries', () => {
 
   it('has_child', () => {
     const result = esBuilder()
-      .query('has_child', 'type', 'blog_tag', q => {
+      .query('has_child', 'type', 'blog_tag', (q) => {
         return q.query('term', 'tag', 'something')
       })
       .build()
@@ -499,7 +461,7 @@ describe('esBuilder - Queries', () => {
 
   it('has_parent', () => {
     const result = esBuilder()
-      .query('has_parent', 'parent_tag', 'blog', q => {
+      .query('has_parent', 'parent_tag', 'blog', (q) => {
         return q.query('term', 'tag', 'something')
       })
       .build()
@@ -698,10 +660,7 @@ describe('esBuilder - Queries', () => {
   })
 
   it('minimum_should_match with one query ignores minimum', () => {
-    const result = esBuilder()
-      .orQuery('term', 'status', 'alert')
-      .queryMinimumShouldMatch(2)
-      .build()
+    const result = esBuilder().orQuery('term', 'status', 'alert').queryMinimumShouldMatch(2).build()
 
     expect(result).toEqual({
       query: {

@@ -11,7 +11,7 @@ export function deduplicateSort(configs: SortObject[]) {
 
   return configs
     .reverse()
-    .filter(config => {
+    .filter((config) => {
       const field = Object.keys(config)[0]
       if (seenFields.has(field) && field !== '_geo_distance') {
         return false
@@ -41,7 +41,7 @@ function buildSort1([fieldOrConfigArray]: [string] | [(string | FieldSortConfig)
   }
 
   const configArray = fieldOrConfigArray
-  return configArray.map(item => {
+  return configArray.map((item) => {
     if (is.string(item)) {
       const field = item
       return {[field]: {order: 'asc'}}

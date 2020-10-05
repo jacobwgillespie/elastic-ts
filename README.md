@@ -58,4 +58,4 @@ The query builder API is heavily inspired by [bodybuilder](https://github.com/da
 
 ### License
 
-The MIT license. Copyright (c) 2018 Jacob Gillespie. See `LICENSE`.
+The MIT license. See `LICENSE`.

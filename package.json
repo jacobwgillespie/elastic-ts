@@ -2,14 +2,13 @@
   "name": "elastic-ts",
   "version": "0.2.0",
   "description": "TypeScript + Elasticsearch (types, query builder, magic)",
-  "author": "Jacob Gillespie <jacobwgillespie@gmail.com>",
-  "homepage": "https://github.com/jacobwgillespie/elastic-ts",
   "repository": "git://github.com/jacobwgillespie/elastic-ts.git",
+  "homepage": "https://github.com/jacobwgillespie/elastic-ts",
+  "author": "Jacob Gillespie <jacobwgillespie@gmail.com>",
   "license": "MIT",
-  "main": "dist/index.js",
-  "module": "dist/elastic-ts.esm.js",
+  "main": "dist/cjs/index.js",
+  "module": "dist/es/index.js",
   "types": "dist/index.d.ts",
-  "sideEffects": false,
   "files": [
     "dist"
   ],
@@ -18,24 +17,30 @@
     "elasticsearch"
   ],
   "scripts": {
-    "build": "tsdx build",
-    "lint": "tsdx lint",
-    "test": "tsdx test",
-    "watch": "tsdx watch"
+    "build": "rollup -c",
+    "fmt": "prettier --write './**/*.ts'",
+    "lint": "prettier --list-different './**/*.ts'",
+    "test": "jest",
+    "type-check": "tsc",
+    "type-check:tests": "tsc -p tsconfig.test.json",
+    "watch": "rollup -c -w"
   },
   "dependencies": {
-    "@sindresorhus/is": "^1.2.0"
+    "@sindresorhus/is": "^3.1.2"
   },
   "devDependencies": {
-    "@types/jest": "^24.0.23",
-    "husky": "^3.1.0",
-    "jest": "^24.9.0",
-    "prettier": "^1.19.1",
-    "ts-jest": "^24.2.0",
-    "tsdx": "^0.11.0",
-    "tslib": "^1.10.0",
-    "typescript": "^3.7.2"
+    "@types/jest": "^26.0.14",
+    "jest": "^26.5.0",
+    "prettier": "^2.1.2",
+    "prettier-plugin-organize-imports": "^1.1.1",
+    "prettier-plugin-pkg": "^0.8.0",
+    "rollup": "^2.28.2",
+    "rollup-plugin-dts": "^1.4.13",
+    "rollup-plugin-typescript2": "^0.27.3",
+    "ts-jest": "^26.4.1",
+    "typescript": "^4.0.3"
   },
+  "sideEffects": false,
   "prettier": {
     "bracketSpacing": false,
     "printWidth": 120,
@@ -43,9 +48,5 @@
     "singleQuote": true,
     "trailingComma": "all"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "tsdx lint"
-    }
-  }
+  "source": "src/index.ts"
 }

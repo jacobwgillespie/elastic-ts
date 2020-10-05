@@ -1,5 +1,3 @@
-// tslint:disable unified-signatures
-
 import {PlainObject, Primitive} from './utils'
 
 /** Represents a function that returns a builder of arbitrary type */
