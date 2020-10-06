@@ -2,6 +2,10 @@ import {Aggregations} from './aggregations'
 import {PrimitiveValue, Script, Sort} from './common'
 import {Query} from './queries'
 
+export * from './aggregations'
+export * from './common'
+export * from './queries'
+
 export interface Highlight {
   type?: 'unified' | 'plain' | 'fvh'
   boundary_chars?: string

@@ -204,7 +204,7 @@ describe('esBuilder - Queries', () => {
     const result = esBuilder()
       .query('term', 'status', {
         value: 'urgent',
-        boost: '2.0',
+        boost: 2.0,
       })
       .build()
 
@@ -213,7 +213,7 @@ describe('esBuilder - Queries', () => {
         term: {
           status: {
             value: 'urgent',
-            boost: '2.0',
+            boost: 2.0,
           },
         },
       },
@@ -224,7 +224,7 @@ describe('esBuilder - Queries', () => {
     const result = esBuilder()
       .orQuery('term', 'status', {
         value: 'urgent',
-        boost: '2.0',
+        boost: 2.0,
       })
       .orQuery('term', 'status', 'normal')
       .build()
@@ -237,7 +237,7 @@ describe('esBuilder - Queries', () => {
               term: {
                 status: {
                   value: 'urgent',
-                  boost: '2.0',
+                  boost: 2.0,
                 },
               },
             },
@@ -282,18 +282,6 @@ describe('esBuilder - Queries', () => {
     expect(result).toEqual({
       query: {
         exists: {
-          field: 'user',
-        },
-      },
-    })
-  })
-
-  it('missing', () => {
-    const result = esBuilder().query('missing', 'user').build()
-
-    expect(result).toEqual({
-      query: {
-        missing: {
           field: 'user',
         },
       },
@@ -480,16 +468,15 @@ describe('esBuilder - Queries', () => {
 
   it('geo_bounding_box', () => {
     const result = esBuilder()
-      .query('geo_bounding_box', {
-        'pin.location': {top_left: {lat: 40, lon: -74}, bottom_right: {lat: 40, lon: -74}},
-        relation: 'within',
+      .query('geo_bounding_box', 'pin.location', {
+        top_left: {lat: 40, lon: -74},
+        bottom_right: {lat: 40, lon: -74},
       })
       .build()
 
     expect(result).toEqual({
       query: {
         geo_bounding_box: {
-          relation: 'within',
           'pin.location': {
             top_left: {lat: 40, lon: -74},
             bottom_right: {lat: 40, lon: -74},
@@ -514,29 +501,6 @@ describe('esBuilder - Queries', () => {
       query: {
         geo_distance: {
           distance: '200km',
-          'pin.location': {
-            lat: 40,
-            lon: -74,
-          },
-        },
-      },
-    })
-  })
-
-  it('geo_distance_range', () => {
-    const result = esBuilder()
-      .query('geo_distance_range', {
-        'pin.location': {lat: 40, lon: -74},
-        from: '100km',
-        to: '200km',
-      })
-      .build()
-
-    expect(result).toEqual({
-      query: {
-        geo_distance_range: {
-          from: '100km',
-          to: '200km',
           'pin.location': {
             lat: 40,
             lon: -74,
@@ -572,29 +536,6 @@ describe('esBuilder - Queries', () => {
     })
   })
 
-  it('geohash_cell', () => {
-    const result = esBuilder()
-      .query('geohash_cell', {
-        pin: {lat: 13.408, lon: 52.5186},
-        precision: 3,
-        neighbors: true,
-      })
-      .build()
-
-    expect(result).toEqual({
-      query: {
-        geohash_cell: {
-          pin: {
-            lat: 13.408,
-            lon: 52.5186,
-          },
-          precision: 3,
-          neighbors: true,
-        },
-      },
-    })
-  })
-
   it('more_like_this', () => {
     const result = esBuilder()
       .query('more_like_this', {
@@ -617,33 +558,13 @@ describe('esBuilder - Queries', () => {
     })
   })
 
-  it('template', () => {
-    const result = esBuilder()
-      .query('template', {
-        inline: {match: {text: '{{query_string}}'}},
-        params: {
-          query_string: 'all about search',
-        },
-      })
-      .build()
-
-    expect(result).toEqual({
-      query: {
-        template: {
-          inline: {match: {text: '{{query_string}}'}},
-          params: {
-            query_string: 'all about search',
-          },
-        },
-      },
-    })
-  })
-
   it('script', () => {
     const result = esBuilder()
-      .query('script', 'script', {
-        inline: "doc['num1'].value > 1",
-        lang: 'painless',
+      .query('script', {
+        script: {
+          source: "doc['num1'].value > 1",
+          lang: 'painless',
+        },
       })
       .build()
 
@@ -651,7 +572,7 @@ describe('esBuilder - Queries', () => {
       query: {
         script: {
           script: {
-            inline: "doc['num1'].value > 1",
+            source: "doc['num1'].value > 1",
             lang: 'painless',
           },
         },

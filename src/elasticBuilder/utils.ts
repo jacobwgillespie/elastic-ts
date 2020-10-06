@@ -1,18 +1,10 @@
-export type Maybe<T> = T | null
-
 export type NotFunction<T> = T extends Function ? never : T
-
-export type StringKeyOf<T> = Extract<keyof T, string>
-
-export type StringKeysOf<T> = StringKeyOf<T>[]
-
-export type ValueOf<T> = T[keyof T]
-
-export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
 
 export type PlainObject = NotFunction<object>
 
 export type Primitive = null | undefined | string | number | boolean | symbol
+
+export type Optional<T, K extends string> = Omit<T, K> & {[P in Extract<keyof T, K>]?: T[P] | undefined}
 
 export function assertNever(value: never): never {
   throw new TypeError(`Unexpected value: ${value}`)

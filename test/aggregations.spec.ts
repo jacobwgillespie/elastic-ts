@@ -122,9 +122,10 @@ describe('esBuilder - Aggregations', () => {
     const result = esBuilder()
       .aggregation('agg_percentiles_load_time', 'percentiles', {
         script: {
-          inline: "doc['load_time'].value / timeUnit",
+          lang: 'painless',
+          source: "doc['load_time'].value / params.timeUnit",
           params: {
-            timeUnit: 100,
+            timeUnit: 1000,
           },
         },
       })
@@ -135,9 +136,10 @@ describe('esBuilder - Aggregations', () => {
         agg_percentiles_load_time: {
           percentiles: {
             script: {
-              inline: "doc['load_time'].value / timeUnit",
+              lang: 'painless',
+              source: "doc['load_time'].value / params.timeUnit",
               params: {
-                timeUnit: 100,
+                timeUnit: 1000,
               },
             },
           },

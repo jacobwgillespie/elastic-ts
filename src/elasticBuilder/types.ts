@@ -1,4 +1,7 @@
-import {PlainObject, Primitive} from './utils'
+import {AggregationType, AllAggregations} from '../types/aggregations'
+import {SortType} from '../types/common'
+import {AllFieldQueryConfigs, AllQueries, FieldQueryType, QueryType} from '../types/queries'
+import {Optional, PlainObject, Primitive} from './utils'
 
 /** Represents a function that returns a builder of arbitrary type */
 export type BuilderFn = () => ESBaseBuilder
@@ -54,19 +57,46 @@ export type AggregationArgs =
   | [string, string, string, PlainObject, ESSubAggregationBuilderFn]
 
 export interface ESAggregationBuilder<B = ESBuilder> {
-  agg(name: string, type: string, field: string): B
-  agg(name: string, type: string, config: PlainObject): B
-  agg(name: string, type: string, field: string, subBuilder: ESSubAggregationBuilderFn): B
-  agg(name: string, type: string, field: string, config: PlainObject): B
-  agg(name: string, type: string, config: PlainObject, subBuilder: ESSubAggregationBuilderFn): B
-  agg(name: string, type: string, field: string, config: PlainObject, subBuilder: ESSubAggregationBuilderFn): B
+  agg<K extends AggregationType>(name: string, type: K, field: string): B
+  agg<K extends AggregationType>(name: string, type: K, config: AllAggregations[K]): B
+  agg<K extends AggregationType>(name: string, type: K, field: string, subBuilder: ESSubAggregationBuilderFn): B
+  agg<K extends AggregationType>(name: string, type: K, field: string, config: Omit<AllAggregations[K], 'field'>): B
+  agg<K extends AggregationType>(
+    name: string,
+    type: K,
+    config: AllAggregations[K],
+    subBuilder: ESSubAggregationBuilderFn,
+  ): B
+  agg<K extends AggregationType>(
+    name: string,
+    type: K,
+    field: string,
+    config: Omit<AllAggregations[K], 'field'>,
+    subBuilder: ESSubAggregationBuilderFn,
+  ): B
 
-  aggregation(name: string, type: string, field: string): B
-  aggregation(name: string, type: string, config: PlainObject): B
-  aggregation(name: string, type: string, field: string, subBuilder: ESSubAggregationBuilderFn): B
-  aggregation(name: string, type: string, field: string, config: PlainObject): B
-  aggregation(name: string, type: string, config: PlainObject, subBuilder: ESSubAggregationBuilderFn): B
-  aggregation(name: string, type: string, field: string, config: PlainObject, subBuilder: ESSubAggregationBuilderFn): B
+  aggregation<K extends AggregationType>(name: string, type: K, field: string): B
+  aggregation<K extends AggregationType>(name: string, type: K, config: AllAggregations[K]): B
+  aggregation<K extends AggregationType>(name: string, type: K, field: string, subBuilder: ESSubAggregationBuilderFn): B
+  aggregation<K extends AggregationType>(
+    name: string,
+    type: K,
+    field: string,
+    config: Omit<AllAggregations[K], 'field'>,
+  ): B
+  aggregation<K extends AggregationType>(
+    name: string,
+    type: K,
+    config: AllAggregations[K],
+    subBuilder: ESSubAggregationBuilderFn,
+  ): B
+  aggregation<K extends AggregationType>(
+    name: string,
+    type: K,
+    field: string,
+    config: Omit<AllAggregations[K], 'field'>,
+    subBuilder: ESSubAggregationBuilderFn,
+  ): B
 }
 
 export interface ESBaseBuilder {
@@ -84,70 +114,126 @@ export type FilterArgs =
 
 export interface ESFilterBuilder<B = ESBuilder> {
   filter(subBuilder: ESSubFilterBuilderFn): B
-  filter(type: string, field: string): B
-  filter(type: string, config: object): B
-  filter(type: string, field: string, value: Primitive | Primitive[]): B
-  filter(type: string, field: string, subBuilder: ESSubFilterBuilderFn): B
-  filter(type: string, field: string, config: PlainObject): B
-  filter(type: string, config: object, subBuilder: ESSubFilterBuilderFn): B
-  filter(type: string, field: string, value: Primitive | Primitive[], subBuilder: ESSubFilterBuilderFn): B
-  filter(type: string, field: string, value: Primitive | Primitive[], config: PlainObject): B
-  filter(
-    type: string,
+  filter<K extends QueryType>(type: K, field: string): B
+  filter<K extends QueryType>(type: K, config: AllQueries[K]): B
+  filter<K extends QueryType>(type: K, field: string, value: Primitive | Primitive[]): B
+  filter<K extends QueryType>(type: K, field: string, subBuilder: ESSubFilterBuilderFn): B
+  filter<K extends QueryType>(type: K, field: string, config: Omit<AllQueries[K], 'field'>): B
+  filter<K extends QueryType>(
+    type: K,
+    config: Optional<AllQueries[K], keyof BuiltQuery>,
+    subBuilder: ESSubFilterBuilderFn,
+  ): B
+  filter<K extends QueryType>(
+    type: K,
     field: string,
     value: Primitive | Primitive[],
-    config: PlainObject,
+    subBuilder: ESSubFilterBuilderFn,
+  ): B
+  filter<K extends QueryType>(
+    type: K,
+    field: string,
+    value: Primitive | Primitive[],
+    config: Omit<AllQueries[K], 'field'>,
+  ): B
+  filter<K extends QueryType>(
+    type: K,
+    field: string,
+    value: Primitive | Primitive[],
+    config: Optional<Omit<AllQueries[K], 'field'>, keyof BuiltQuery>,
     subBuilder: ESSubFilterBuilderFn,
   ): B
 
   andFilter(subBuilder: ESSubFilterBuilderFn): B
-  andFilter(type: string, field: string): B
-  andFilter(type: string, config: object): B
-  andFilter(type: string, field: string, value: Primitive | Primitive[]): B
-  andFilter(type: string, field: string, subBuilder: ESSubFilterBuilderFn): B
-  andFilter(type: string, field: string, config: PlainObject): B
-  andFilter(type: string, config: object, subBuilder: ESSubFilterBuilderFn): B
-  andFilter(type: string, field: string, value: Primitive | Primitive[], subBuilder: ESSubFilterBuilderFn): B
-  andFilter(type: string, field: string, value: Primitive | Primitive[], config: PlainObject): B
-  andFilter(
-    type: string,
+  andFilter<K extends QueryType>(type: K, field: string): B
+  andFilter<K extends QueryType>(type: K, config: AllQueries[K]): B
+  andFilter<K extends QueryType>(type: K, field: string, value: Primitive | Primitive[]): B
+  andFilter<K extends QueryType>(type: K, field: string, subBuilder: ESSubFilterBuilderFn): B
+  andFilter<K extends QueryType>(type: K, field: string, config: Omit<AllQueries[K], 'field'>): B
+  andFilter<K extends QueryType>(
+    type: K,
+    config: Optional<AllQueries[K], keyof BuiltQuery>,
+    subBuilder: ESSubFilterBuilderFn,
+  ): B
+  andFilter<K extends QueryType>(
+    type: K,
     field: string,
     value: Primitive | Primitive[],
-    config: PlainObject,
+    subBuilder: ESSubFilterBuilderFn,
+  ): B
+  andFilter<K extends QueryType>(
+    type: K,
+    field: string,
+    value: Primitive | Primitive[],
+    config: Omit<AllQueries[K], 'field'>,
+  ): B
+  andFilter<K extends QueryType>(
+    type: K,
+    field: string,
+    value: Primitive | Primitive[],
+    config: Optional<Omit<AllQueries[K], 'field'>, keyof BuiltQuery>,
     subBuilder: ESSubFilterBuilderFn,
   ): B
 
   orFilter(subBuilder: ESSubFilterBuilderFn): B
-  orFilter(type: string, field: string): B
-  orFilter(type: string, config: object): B
-  orFilter(type: string, field: string, value: Primitive | Primitive[]): B
-  orFilter(type: string, field: string, subBuilder: ESSubFilterBuilderFn): B
-  orFilter(type: string, field: string, config: PlainObject): B
-  orFilter(type: string, config: object, subBuilder: ESSubFilterBuilderFn): B
-  orFilter(type: string, field: string, value: Primitive | Primitive[], subBuilder: ESSubFilterBuilderFn): B
-  orFilter(type: string, field: string, value: Primitive | Primitive[], config: PlainObject): B
-  orFilter(
-    type: string,
+  orFilter<K extends QueryType>(type: K, field: string): B
+  orFilter<K extends QueryType>(type: K, config: AllQueries[K]): B
+  orFilter<K extends QueryType>(type: K, field: string, value: Primitive | Primitive[]): B
+  orFilter<K extends QueryType>(type: K, field: string, subBuilder: ESSubFilterBuilderFn): B
+  orFilter<K extends QueryType>(type: K, field: string, config: Omit<AllQueries[K], 'field'>): B
+  orFilter<K extends QueryType>(
+    type: K,
+    config: Optional<AllQueries[K], keyof BuiltQuery>,
+    subBuilder: ESSubFilterBuilderFn,
+  ): B
+  orFilter<K extends QueryType>(
+    type: K,
     field: string,
     value: Primitive | Primitive[],
-    config: PlainObject,
+    subBuilder: ESSubFilterBuilderFn,
+  ): B
+  orFilter<K extends QueryType>(
+    type: K,
+    field: string,
+    value: Primitive | Primitive[],
+    config: Omit<AllQueries[K], 'field'>,
+  ): B
+  orFilter<K extends QueryType>(
+    type: K,
+    field: string,
+    value: Primitive | Primitive[],
+    config: Optional<Omit<AllQueries[K], 'field'>, keyof BuiltQuery>,
     subBuilder: ESSubFilterBuilderFn,
   ): B
 
   notFilter(subBuilder: ESSubFilterBuilderFn): B
-  notFilter(type: string, field: string): B
-  notFilter(type: string, config: object): B
-  notFilter(type: string, field: string, value: Primitive | Primitive[]): B
-  notFilter(type: string, field: string, subBuilder: ESSubFilterBuilderFn): B
-  notFilter(type: string, field: string, config: PlainObject): B
-  notFilter(type: string, config: object, subBuilder: ESSubFilterBuilderFn): B
-  notFilter(type: string, field: string, value: Primitive | Primitive[], subBuilder: ESSubFilterBuilderFn): B
-  notFilter(type: string, field: string, value: Primitive | Primitive[], config: PlainObject): B
-  notFilter(
-    type: string,
+  notFilter<K extends QueryType>(type: K, field: string): B
+  notFilter<K extends QueryType>(type: K, config: AllQueries[K]): B
+  notFilter<K extends QueryType>(type: K, field: string, value: Primitive | Primitive[]): B
+  notFilter<K extends QueryType>(type: K, field: string, subBuilder: ESSubFilterBuilderFn): B
+  notFilter<K extends QueryType>(type: K, field: string, config: Omit<AllQueries[K], 'field'>): B
+  notFilter<K extends QueryType>(
+    type: K,
+    config: Optional<AllQueries[K], keyof BuiltQuery>,
+    subBuilder: ESSubFilterBuilderFn,
+  ): B
+  notFilter<K extends QueryType>(
+    type: K,
     field: string,
     value: Primitive | Primitive[],
-    config: PlainObject,
+    subBuilder: ESSubFilterBuilderFn,
+  ): B
+  notFilter<K extends QueryType>(
+    type: K,
+    field: string,
+    value: Primitive | Primitive[],
+    config: Omit<AllQueries[K], 'field'>,
+  ): B
+  notFilter<K extends QueryType>(
+    type: K,
+    field: string,
+    value: Primitive | Primitive[],
+    config: Optional<Omit<AllQueries[K], 'field'>, keyof BuiltQuery>,
     subBuilder: ESSubFilterBuilderFn,
   ): B
 
@@ -165,80 +251,129 @@ export type QueryArgs =
 
 export interface ESQueryBuilder<B = ESBuilder> {
   query(subBuilder: ESSubQueryBuilderFn): B
-  query(type: string, field: string): B
-  query(type: string, config: object): B
-  query(type: string, field: string, value: Primitive | Primitive[]): B
-  query(type: string, field: string, subBuilder: ESSubQueryBuilderFn): B
-  query(type: string, field: string, config: PlainObject): B
-  query(type: string, config: object, subBuilder: ESSubQueryBuilderFn): B
-  query(type: string, field: string, value: Primitive | Primitive[], subBuilder: ESSubQueryBuilderFn): B
-  query(type: string, field: string, value: Primitive | Primitive[], config: PlainObject): B
-  query(
-    type: string,
-    field: string,
+  query<K extends QueryType>(type: K, field: string): B
+  query<K extends QueryType>(type: K, config: AllQueries[K]): B
+  query<K extends FieldQueryType>(type: K, field: string, config: AllFieldQueryConfigs[K]): B
+  query<K extends QueryType>(type: K, field: string, value: Primitive | Primitive[]): B
+  query<K extends QueryType>(type: K, field: string, subBuilder: ESSubQueryBuilderFn): B
+  query<K extends QueryType>(
+    type: K,
+    config: Optional<AllQueries[K], keyof BuiltQuery>,
+    subBuilder: ESSubQueryBuilderFn,
+  ): B
+  query<K extends QueryType>(type: K, field: string, value: Primitive | Primitive[], subBuilder: ESSubQueryBuilderFn): B
+  query<K extends QueryType, F extends string>(
+    type: K,
+    field: F,
     value: Primitive | Primitive[],
-    config: PlainObject,
+    config: Omit<AllQueries[K], F>,
+  ): B
+  query<K extends QueryType, F extends string>(
+    type: K,
+    field: F,
+    value: Primitive | Primitive[],
+    config: Optional<Omit<AllQueries[K], F>, keyof BuiltQuery>,
     subBuilder: ESSubQueryBuilderFn,
   ): B
 
   andQuery(subBuilder: ESSubQueryBuilderFn): B
-  andQuery(type: string, field: string): B
-  andQuery(type: string, config: object): B
-  andQuery(type: string, field: string, value: Primitive | Primitive[]): B
-  andQuery(type: string, field: string, subBuilder: ESSubQueryBuilderFn): B
-  andQuery(type: string, field: string, config: PlainObject): B
-  andQuery(type: string, config: object, subBuilder: ESSubQueryBuilderFn): B
-  andQuery(type: string, field: string, value: Primitive | Primitive[], subBuilder: ESSubQueryBuilderFn): B
-  andQuery(type: string, field: string, value: Primitive | Primitive[], config: PlainObject): B
-  andQuery(
-    type: string,
+  andQuery<K extends QueryType>(type: K, field: string): B
+  andQuery<K extends QueryType>(type: K, config: AllQueries[K]): B
+  andQuery<K extends FieldQueryType>(type: K, field: string, config: AllFieldQueryConfigs[K]): B
+  andQuery<K extends QueryType>(type: K, field: string, value: Primitive | Primitive[]): B
+  andQuery<K extends QueryType>(type: K, field: string, subBuilder: ESSubQueryBuilderFn): B
+  andQuery<K extends QueryType>(
+    type: K,
+    config: Optional<AllQueries[K], keyof BuiltQuery>,
+    subBuilder: ESSubQueryBuilderFn,
+  ): B
+  andQuery<K extends QueryType>(
+    type: K,
     field: string,
     value: Primitive | Primitive[],
-    config: PlainObject,
+    subBuilder: ESSubQueryBuilderFn,
+  ): B
+  andQuery<K extends QueryType, F extends string>(
+    type: K,
+    field: F,
+    value: Primitive | Primitive[],
+    config: Omit<AllQueries[K], F>,
+  ): B
+  andQuery<K extends QueryType, F extends string>(
+    type: K,
+    field: F,
+    value: Primitive | Primitive[],
+    config: Optional<Omit<AllQueries[K], F>, keyof BuiltQuery>,
     subBuilder: ESSubQueryBuilderFn,
   ): B
 
   orQuery(subBuilder: ESSubQueryBuilderFn): B
-  orQuery(type: string, field: string): B
-  orQuery(type: string, config: object): B
-  orQuery(type: string, field: string, value: Primitive | Primitive[]): B
-  orQuery(type: string, field: string, subBuilder: ESSubQueryBuilderFn): B
-  orQuery(type: string, field: string, config: PlainObject): B
-  orQuery(type: string, config: object, subBuilder: ESSubQueryBuilderFn): B
-  orQuery(type: string, field: string, value: Primitive | Primitive[], subBuilder: ESSubQueryBuilderFn): B
-  orQuery(type: string, field: string, value: Primitive | Primitive[], config: PlainObject): B
-  orQuery(
-    type: string,
+  orQuery<K extends QueryType>(type: K, field: string): B
+  orQuery<K extends QueryType>(type: K, config: AllQueries[K]): B
+  orQuery<K extends FieldQueryType>(type: K, field: string, config: AllFieldQueryConfigs[K]): B
+  orQuery<K extends QueryType>(type: K, field: string, value: Primitive | Primitive[]): B
+  orQuery<K extends QueryType>(type: K, field: string, subBuilder: ESSubQueryBuilderFn): B
+  orQuery<K extends QueryType>(
+    type: K,
+    config: Optional<AllQueries[K], keyof BuiltQuery>,
+    subBuilder: ESSubQueryBuilderFn,
+  ): B
+  orQuery<K extends QueryType>(
+    type: K,
     field: string,
     value: Primitive | Primitive[],
-    config: PlainObject,
+    subBuilder: ESSubQueryBuilderFn,
+  ): B
+  orQuery<K extends QueryType, F extends string>(
+    type: K,
+    field: F,
+    value: Primitive | Primitive[],
+    config: Omit<AllQueries[K], F>,
+  ): B
+  orQuery<K extends QueryType, F extends string>(
+    type: K,
+    field: F,
+    value: Primitive | Primitive[],
+    config: Optional<Omit<AllQueries[K], F>, keyof BuiltQuery>,
     subBuilder: ESSubQueryBuilderFn,
   ): B
 
   notQuery(subBuilder: ESSubQueryBuilderFn): B
-  notQuery(type: string, field: string): B
-  notQuery(type: string, config: object): B
-  notQuery(type: string, field: string, value: Primitive | Primitive[]): B
-  notQuery(type: string, field: string, subBuilder: ESSubQueryBuilderFn): B
-  notQuery(type: string, field: string, config: PlainObject): B
-  notQuery(type: string, config: object, subBuilder: ESSubQueryBuilderFn): B
-  notQuery(type: string, field: string, value: Primitive | Primitive[], subBuilder: ESSubQueryBuilderFn): B
-  notQuery(type: string, field: string, value: Primitive | Primitive[], config: PlainObject): B
-  notQuery(
-    type: string,
+  notQuery<K extends QueryType>(type: K, field: string): B
+  notQuery<K extends QueryType>(type: K, config: AllQueries[K]): B
+  notQuery<K extends FieldQueryType>(type: K, field: string, config: AllFieldQueryConfigs[K]): B
+  notQuery<K extends QueryType>(type: K, field: string, value: Primitive | Primitive[]): B
+  notQuery<K extends QueryType>(type: K, field: string, subBuilder: ESSubQueryBuilderFn): B
+  notQuery<K extends QueryType>(
+    type: K,
+    config: Optional<AllQueries[K], keyof BuiltQuery>,
+    subBuilder: ESSubQueryBuilderFn,
+  ): B
+  notQuery<K extends QueryType>(
+    type: K,
     field: string,
     value: Primitive | Primitive[],
-    config: PlainObject,
+    subBuilder: ESSubQueryBuilderFn,
+  ): B
+  notQuery<K extends QueryType, F extends string>(
+    type: K,
+    field: F,
+    value: Primitive | Primitive[],
+    config: Omit<AllQueries[K], F>,
+  ): B
+  notQuery<K extends QueryType, F extends string>(
+    type: K,
+    field: F,
+    value: Primitive | Primitive[],
+    config: Optional<Omit<AllQueries[K], F>, keyof BuiltQuery>,
     subBuilder: ESSubQueryBuilderFn,
   ): B
 
   queryMinimumShouldMatch(param: string | number): B
 }
 
-export type FieldSortConfig = {[field: string]: 'asc' | 'desc' | object}
-
 /** Represents all the different argument variations to the sort method */
-export type SortArgs = [string] | [(string | FieldSortConfig)[]] | [string, string] | [string, PlainObject]
+export type SortArgs = [string] | [SortType[]] | [string, string] | [string, PlainObject]
 
 export interface ESBuilder extends ESBaseBuilder, ESAggregationBuilder, ESFilterBuilder, ESQueryBuilder {
   from(quantity: number): ESBuilder
@@ -247,7 +382,7 @@ export interface ESBuilder extends ESBaseBuilder, ESAggregationBuilder, ESFilter
   sort(field: string): ESBuilder
   sort(field: string, direction: string): ESBuilder
   sort(field: string, body: object): ESBuilder
-  sort(fields: (string | FieldSortConfig)[]): ESBuilder
+  sort(fields: SortType[]): ESBuilder
 }
 
 export interface ESSubAggregationBuilder

@@ -912,7 +912,7 @@ body = {
   query: {
     function_score: {
       query: {match_all: {}},
-      boost: '5',
+      boost: 5,
       random_score: {},
       boost_mode: 'multiply',
     },
@@ -923,7 +923,7 @@ body = {
   query: {
     function_score: {
       query: {match_all: {}},
-      boost: '5',
+      boost: 5,
       functions: [
         {
           filter: {match: {test: 'bar'}},
@@ -1412,7 +1412,7 @@ body = {
               lon: -71.12,
             },
           },
-          type: 'indexed',
+          // type: 'indexed', // TODO: add types to support this case
         },
       },
     },
