@@ -20,6 +20,7 @@
     "build": "rollup -c",
     "fmt": "prettier --write './**/*.ts'",
     "lint": "prettier --list-different './**/*.ts'",
+    "prepack": "rm -rf dist && rollup -c",
     "test": "jest",
     "type-check": "tsc",
     "type-check:tests": "tsc -p tsconfig.test.json",
