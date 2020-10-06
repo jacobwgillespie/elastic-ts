@@ -4,6 +4,8 @@ export type PlainObject = NotFunction<object>
 
 export type Primitive = null | undefined | string | number | boolean | symbol
 
+export type Optional<T, K extends string> = Omit<T, K> & {[P in Extract<keyof T, K>]?: T[P] | undefined}
+
 export function assertNever(value: never): never {
   throw new TypeError(`Unexpected value: ${value}`)
 }

@@ -510,30 +510,31 @@ export interface GeoShapeQuery {
   }
 }
 
-export interface GeoBoundingBox {
-  geo_bounding_box:
-    | {
-        type: 'memory' | 'indexed'
-      }
-    | {
-        [field: string]: {
-          _name?: string
-          validation_method?: 'strict' | 'ignore_malformed' | 'coerce'
-          bottom_left?: Coordinate
-          bottom_right?: Coordinate
-          bottom?: Coordinate
-          bottomLeft?: Coordinate
-          bottomRight?: Coordinate
-          left?: Coordinate
-          right?: Coordinate
-          top_left?: Coordinate
-          top_right?: Coordinate
-          top?: Coordinate
-          topLeft?: Coordinate
-          topRight?: Coordinate
-          wkt?: string
-        }
-      }
+export interface GeoBoundingBoxFieldConfig {
+  geo_bounding_box: {
+    _name?: string
+    type?: 'memory' | 'indexed'
+    validation_method?: 'strict' | 'ignore_malformed' | 'coerce'
+    bottom_left?: Coordinate
+    bottom_right?: Coordinate
+    bottom?: Coordinate
+    bottomLeft?: Coordinate
+    bottomRight?: Coordinate
+    left?: Coordinate
+    right?: Coordinate
+    top_left?: Coordinate
+    top_right?: Coordinate
+    top?: Coordinate
+    topLeft?: Coordinate
+    topRight?: Coordinate
+    wkt?: string
+  }
+}
+
+export interface GeoBoundingBoxQuery {
+  geo_bounding_box: {
+    [field: string]: GeoBoundingBoxFieldConfig['geo_bounding_box']
+  }
 }
 
 export interface GeoDistanceQuery {
@@ -550,22 +551,23 @@ export interface GeoDistanceQuery {
       }
 }
 
-export interface GeoPolygonQuery {
-  geo_polygon:
-    | {
-        _name?: string
-        validation_method?: 'strict' | 'ignore_malformed' | 'coerce'
-        ignore_unmapped?: boolean
-      }
-    | {
-        [field: string]: {
-          points: Coordinate[]
-        }
-      }
+export interface GeoPolygonFieldConfig {
+  geo_polygon: {
+    points: Coordinate[]
+    _name?: string
+    validation_method?: 'strict' | 'ignore_malformed' | 'coerce'
+    ignore_unmapped?: boolean
+  }
 }
 
-export type GeoQuery = GeoShapeQuery | GeoBoundingBox | GeoDistanceQuery | GeoPolygonQuery
-export type AllGeoQueries = GeoShapeQuery & GeoBoundingBox & GeoDistanceQuery & GeoPolygonQuery
+export interface GeoPolygonQuery {
+  geo_polygon: {
+    [field: string]: GeoPolygonFieldConfig['geo_polygon']
+  }
+}
+
+export type GeoQuery = GeoShapeQuery | GeoBoundingBoxQuery | GeoDistanceQuery | GeoPolygonQuery
+export type AllGeoQueries = GeoShapeQuery & GeoBoundingBoxQuery & GeoDistanceQuery & GeoPolygonQuery
 
 // Specialized Queries
 
@@ -671,6 +673,8 @@ export type AllQueries = MatchAllQuery &
   AllGeoQueries &
   AllSpecializedQueries
 
+export type QueryType = keyof AllQueries
+
 export type FieldQueryConfig =
   | MatchQueryFieldConfig
   | MatchPhraseFieldConfig
@@ -684,6 +688,8 @@ export type FieldQueryConfig =
   | WildcardFieldConfig
   | RegexpFieldConfig
   | FuzzyFieldConfig
+  | GeoBoundingBoxFieldConfig
+  | GeoPolygonFieldConfig
 
 export type AllFieldQueryConfigs = MatchQueryFieldConfig &
   MatchPhraseFieldConfig &
@@ -696,6 +702,8 @@ export type AllFieldQueryConfigs = MatchQueryFieldConfig &
   PrefixFieldConfig &
   WildcardFieldConfig &
   RegexpFieldConfig &
-  FuzzyFieldConfig
+  FuzzyFieldConfig &
+  GeoBoundingBoxFieldConfig &
+  GeoPolygonFieldConfig
 
-export type QueryType = keyof AllQueries
+export type FieldQueryType = keyof AllFieldQueryConfigs

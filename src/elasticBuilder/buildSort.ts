@@ -1,5 +1,6 @@
 import is from '@sindresorhus/is'
-import {FieldSortConfig, SortArgs} from './types'
+import {SortType} from '../types/common'
+import {SortArgs} from './types'
 import {PlainObject} from './utils'
 
 interface SortObject {
@@ -34,7 +35,7 @@ export function buildSort(args: SortArgs) {
   }
 }
 
-function buildSort1([fieldOrConfigArray]: [string] | [(string | FieldSortConfig)[]]) {
+function buildSort1([fieldOrConfigArray]: [string] | [SortType[]]) {
   if (is.string(fieldOrConfigArray)) {
     const field = fieldOrConfigArray
     return {[field]: {order: 'asc'}}
@@ -51,7 +52,7 @@ function buildSort1([fieldOrConfigArray]: [string] | [(string | FieldSortConfig)
         throw new TypeError('invalid argument')
       }
       const field = keys[0]
-      const orderOrConfig = item[field]
+      const orderOrConfig = (item as Record<string, string | object>)[field]
       if (is.string(orderOrConfig)) {
         const order = orderOrConfig
         return {[field]: {order}}
