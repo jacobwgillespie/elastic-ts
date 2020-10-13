@@ -27,7 +27,7 @@
     "watch": "rollup -c -w"
   },
   "dependencies": {
-    "@sindresorhus/is": "^3.1.2"
+    "@sindresorhus/is": "^4.0.0"
   },
   "devDependencies": {
     "@types/jest": "^26.0.14",
