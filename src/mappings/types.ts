@@ -16,25 +16,23 @@ export interface BooleanField {
   }
 }
 
-export interface KeywordFieldParameters {
-  boost?: number
-  doc_values?: boolean
-  eager_global_ordinals?: boolean
-  fields: Record<string, unknown> // TODO: write this
-  ignore_above?: number
-  index?: boolean
-  index_options?: 'docs' | 'freqs'
-  norms?: boolean
-  null_value?: string
-  store?: boolean
-  similarity?: 'BM25' | 'classic' | 'boolean'
-  normalizer?: string
-  split_queries_on_whitespace?: boolean
-  meta?: Record<string, string>
-}
-
 export interface KeywordField {
-  keyword: KeywordFieldParameters
+  keyword: {
+    boost?: number
+    doc_values?: boolean
+    eager_global_ordinals?: boolean
+    fields?: Record<string, FieldMapping>
+    ignore_above?: number
+    index?: boolean
+    index_options?: 'docs' | 'freqs'
+    norms?: boolean
+    null_value?: string
+    store?: boolean
+    similarity?: 'BM25' | 'classic' | 'boolean'
+    normalizer?: string
+    split_queries_on_whitespace?: boolean
+    meta?: Record<string, string>
+  }
 }
 
 export interface ConstantKeywordField {
@@ -218,7 +216,7 @@ export interface TextField {
     eager_global_ordinals?: boolean
     fielddata?: boolean
     fielddata_frequency_filter?: {min?: number; max?: number; min_segment_size?: number}
-    fields?: unknown
+    fields?: Record<string, FieldMapping>
     index?: boolean
     index_options?: 'docs' | 'freq' | 'positions' | 'offsets'
     index_prefixes?: {min_chars?: number; max_chars?: number}
@@ -331,6 +329,10 @@ export interface ShapeField {
   }
 }
 
+export interface PercolatorField {
+  percolator: {}
+}
+
 export type Fields =
   | BinaryField
   | BooleanField
@@ -372,6 +374,7 @@ export type Fields =
   | GeoShapeField
   | PointField
   | ShapeField
+  | PercolatorField
 
 export type AllFields = BinaryField &
   BooleanField &
@@ -412,7 +415,8 @@ export type AllFields = BinaryField &
   GeoPointField &
   GeoShapeField &
   PointField &
-  ShapeField
+  ShapeField &
+  PercolatorField
 
 export type FieldType = keyof AllFields
 
