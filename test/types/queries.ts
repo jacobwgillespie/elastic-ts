@@ -1688,6 +1688,60 @@ body = {
   },
 }
 
+// Script Score Query
+
+body = {
+  query: {
+    script_score: {
+      query: {
+        match: {message: 'elasticsearch'},
+      },
+      script: {
+        source: "doc['my-int'].value / 10 ",
+      },
+    },
+  },
+}
+
+body = {
+  query: {
+    script_score: {
+      query: {match_all: {}},
+      script: {
+        source: "decayNumericLinear(params.origin, params.scale, params.offset, params.decay, doc['dval'].value)",
+        params: {
+          origin: 20,
+          scale: 10,
+          decay: 0.5,
+          offset: 0,
+        },
+      },
+    },
+  },
+}
+
+body = {
+  query: {
+    script_score: {
+      query: {
+        bool: {
+          filter: {
+            term: {
+              status: 'published',
+            },
+          },
+        },
+      },
+      script: {
+        source: "cosineSimilarity(params.query_vector, 'my_dense_vector') + 1.0",
+        params: {
+          query_vector: [4, 3.4, -0.2],
+        },
+      },
+    },
+  },
+}
+
 // Percolate Query
 
 body = {

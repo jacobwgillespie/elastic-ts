@@ -386,6 +386,7 @@ export interface DisMaxQuery {
   }
 }
 
+/** @deprecated Deprecated in Elasticsearch 7.9 */
 export interface FunctionScoreQuery {
   function_score: {
     functions?: (FunctionScoreQuery['function_score'] & {filter?: Query})[]
@@ -600,6 +601,13 @@ export interface ScriptQuery {
   }
 }
 
+export interface ScriptScoreQuery {
+  script_score: {
+    query: Query
+    script: Script
+  }
+}
+
 export interface PercolateQuery {
   percolate: {
     field: string
@@ -651,8 +659,19 @@ export interface RankFeatureQuery {
   )
 }
 
-export type SpecializedQuery = MoreLikeThisQuery | ScriptQuery | PercolateQuery | WrapperQuery | RankFeatureQuery
-export type AllSpecializedQueries = MoreLikeThisQuery & ScriptQuery & PercolateQuery & WrapperQuery & RankFeatureQuery
+export type SpecializedQuery =
+  | MoreLikeThisQuery
+  | ScriptQuery
+  | ScriptScoreQuery
+  | PercolateQuery
+  | WrapperQuery
+  | RankFeatureQuery
+export type AllSpecializedQueries = MoreLikeThisQuery &
+  ScriptQuery &
+  ScriptScoreQuery &
+  PercolateQuery &
+  WrapperQuery &
+  RankFeatureQuery
 
 export type Query =
   | MatchAllQuery
