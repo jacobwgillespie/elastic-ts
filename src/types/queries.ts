@@ -90,7 +90,7 @@ export interface MultiMatchQuery {
     rewrite?: any
     slop?: number
     tie_breaker?: number | string
-    type?: 'best_fields' | 'most_fields' | 'cross_fields' | 'phrase' | 'phrase_prefix'
+    type?: 'best_fields' | 'most_fields' | 'cross_fields' | 'phrase' | 'phrase_prefix' | 'bool_prefix'
     zero_terms_query?: 'none' | 'all'
   }
 }
