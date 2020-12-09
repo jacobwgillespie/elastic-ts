@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.5.0 - 2020-12-09
+
+- Add bool_prefix type for multi_match (thanks [@christopher-l](https://github.com/christopher-l))
+
 ## v0.4.0 - 2020-11-06
 
 - Add field mapping types
