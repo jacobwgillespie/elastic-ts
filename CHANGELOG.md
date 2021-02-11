@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.6.0 - 2021-02-11
+
+- Add boost field for match_phrase queries (thanks [@StevenGBrown](https://github.com/StevenGBrown))
+
 ## v0.5.0 - 2020-12-09
 
 - Add bool_prefix type for multi_match (thanks [@christopher-l](https://github.com/christopher-l))
