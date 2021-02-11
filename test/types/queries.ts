@@ -113,6 +113,18 @@ body = {
   },
 }
 
+// https://www.elastic.co/blog/how-to-improve-elasticsearch-search-relevance-with-boolean-queries
+body = {
+  query: {
+    match_phrase: {
+      content: {
+        query: 'simple rest apis distributed nature',
+        boost: 2,
+      },
+    },
+  },
+}
+
 // Match Phrase Prefix Query
 
 body = {

@@ -47,6 +47,7 @@ export interface MatchPhraseFieldConfig {
     | {
         query: string
         analyzer?: string
+        boost?: number
         slop?: number
       }
 }
