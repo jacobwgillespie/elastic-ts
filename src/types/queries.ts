@@ -144,6 +144,7 @@ export interface QueryStringQuery {
     rewrite?: any
     fields?: string[]
     tie_breaker?: number
+    default_operator?: 'and' | 'or'
   }
 }
 
