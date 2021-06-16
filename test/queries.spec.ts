@@ -1,4 +1,4 @@
-import {esBuilder} from '..'
+import {esBuilder} from '../src'
 
 describe('esBuilder - Queries', () => {
   it('match_all', () => {
