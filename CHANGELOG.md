@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.7.0 - 2021-06-16
+
+- Added default_operator field for query_string (thanks [@brunozoric](https://github.com/brunozoric))
+
 ## v0.6.0 - 2021-02-11
 
 - Add boost field for match_phrase queries (thanks [@StevenGBrown](https://github.com/StevenGBrown))
