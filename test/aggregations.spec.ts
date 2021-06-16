@@ -1,4 +1,4 @@
-import {esBuilder} from '../src'
+import {esBuilder} from '..'
 
 describe('esBuilder - Aggregations', () => {
   it('avg aggregation', () => {
