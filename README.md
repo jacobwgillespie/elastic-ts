@@ -56,6 +56,12 @@ const body = esBuilder()
 
 The query builder API is heavily inspired by [bodybuilder](https://github.com/danpaz/bodybuilder), although there are subtle API and behavioral differences.
 
+### Contributing
+
+You can build the project by running `yarn build`, or can be continuously built with `yarn watch`. Tests are executed by running `yarn test`.
+
+**NOTE:** the tests run against the _built_ output files, so you will need to run `yarn build` or `yarn watch` before running `yarn test`.
+
 ### License
 
 The MIT license. See `LICENSE`.
