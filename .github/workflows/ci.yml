@@ -19,7 +19,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-v1-
       - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2.1.5
+        uses: actions/setup-node@v2.2.0
         with:
           node-version: ${{ matrix.node-version }}
       - run: yarn install --frozen-lockfile
