@@ -31,7 +31,7 @@
     "@sindresorhus/is": "^4.0.0"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.14",
+    "@types/jest": "^27.0.0",
     "jest": "^26.5.0",
     "prettier": "^2.1.2",
     "prettier-plugin-organize-imports": "^2.0.0",
