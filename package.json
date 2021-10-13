@@ -1,6 +1,6 @@
 {
   "name": "elastic-ts",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "TypeScript + Elasticsearch (types, query builder, magic)",
   "repository": "git://github.com/jacobwgillespie/elastic-ts.git",
   "homepage": "https://github.com/jacobwgillespie/elastic-ts",
