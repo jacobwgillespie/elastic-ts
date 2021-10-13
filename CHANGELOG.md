@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.8.0 - 2021-10-13
+
+- Updated date_histogram aggregation parameters
+
 ## v0.7.0 - 2021-06-16
 
 - Added default_operator field for query_string (thanks [@brunozoric](https://github.com/brunozoric))

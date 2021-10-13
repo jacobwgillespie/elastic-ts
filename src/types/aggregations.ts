@@ -186,8 +186,11 @@ export interface CompositeAggregation {
 export interface DateHistogramAggregation {
   date_histogram: {
     field: string
-    interval: string
+    interval?: string
+    calendar_interval?: string
+    fixed_interval?: string
     offset?: string
+    min_doc_count?: number
     format?: string
     time_zone?: string
     keyed?: boolean
