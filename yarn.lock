@@ -2440,9 +2440,9 @@ prettier-plugin-organize-imports@^2.0.0:
   integrity sha512-R8o23sf5iVL/U71h9SFUdhdOEPsi3nm42FD/oDYIZ2PQa4TNWWuWecxln6jlIQzpZTDMUeO1NicJP6lLn2TtRw==
 
 prettier-plugin-pkg@^0.13.0:
-  version "0.13.1"
-  resolved "https://registry.yarnpkg.com/prettier-plugin-pkg/-/prettier-plugin-pkg-0.13.1.tgz#81a0ee8e5f361fec7373313568767711f10e9527"
-  integrity sha512-/ZUvdE0lETqsysOMDL8LsK5p+ZGNeTkxZ547hdruxgjBI6vi+fnnfF4XAGv5VBZRnthqMz0KKPjY1NnqIw4B9g==
+  version "0.13.2"
+  resolved "https://registry.yarnpkg.com/prettier-plugin-pkg/-/prettier-plugin-pkg-0.13.2.tgz#2c3ef9ad7b99887ade82178aa19388ce30b924fe"
+  integrity sha512-cdFEc+QHKPYhQ3cjW5qRIuuiS85uIIWL5ihozeLkRgyqow35aVGl7zo8q/RDeGJNX1NISFgPmFax4DEBGLx2Qg==
 
 prettier@^2.1.2:
   version "2.6.2"
