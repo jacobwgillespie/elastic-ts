@@ -678,10 +678,10 @@
     estree-walker "^2.0.1"
     picomatch "^2.2.2"
 
-"@sindresorhus/is@^4.0.0":
-  version "4.6.0"
-  resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-4.6.0.tgz#3c7c9c46e678feefe7a2e5bb609d3dbd665ffb3f"
-  integrity sha512-t09vSN3MdfsyCHoFcTRCH/iUtG7OJ0CsjzB8cjAmKc/va/kIgeDI/TxsigdncE/4be734m0cvIYwNaV4i2XqAw==
+"@sindresorhus/is@^5.1.0":
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-5.1.0.tgz#d2b56c5eb1619fca9be94ced04ffafde8107a9e1"
+  integrity sha512-TsEUyp3jzFpAMVO/+iFt+8nRoGJcU9ZE4mfyi3SpFry8j6CaxzLDuC7HefHCQ9/+IykpypZanfPPfeHpUAziyg==
 
 "@sinonjs/commons@^1.7.0":
   version "1.8.3"
