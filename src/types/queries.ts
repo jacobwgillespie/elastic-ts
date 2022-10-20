@@ -275,10 +275,12 @@ export interface WildcardFieldConfig {
     | {
         value: string
         boost?: number
+        case_insensitive?: boolean
       }
     | {
         wildcard: string
         boost?: number
+        case_insensitive?: boolean
       }
 }
 export interface WildcardQuery {
