@@ -2,6 +2,10 @@
 
 ## v0.8.0 - 2021-10-13
 
+- Added case_insensitive (thanks [@dagmara-bluestone](https://github.com/dagmara-bluestone))
+
+## v0.8.0 - 2021-10-13
+
 - Updated date_histogram aggregation parameters
 
 ## v0.7.0 - 2021-06-16
