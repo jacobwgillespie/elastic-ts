@@ -284,6 +284,44 @@ describe('esBuilder - Aggregations', () => {
     })
   })
 
+  it('date_histogram aggregation with extended_bounds support', () => {
+    const result = esBuilder().aggregation('agg_date_histogram_extended_bounds',
+      'date_histogram', 'extended', { extended_bounds: {min: 0, max: 1} }).build()
+
+    expect(result).toEqual({
+      aggs: {
+        agg_date_histogram_extended_bounds: {
+          date_histogram: {
+            field: 'extended',
+            extended_bounds: {
+              max: 1,
+              min: 0
+            }
+          },
+        },
+      },
+    })
+  })
+
+  it('date_histogram aggregation with extended_bounds support, date string format', () => {
+    const result = esBuilder().aggregation('agg_date_histogram_extended_bounds',
+      'date_histogram', 'extended', { extended_bounds: {min: '2024-01-01', max: '2024-12-31'} }).build()
+
+    expect(result).toEqual({
+      aggs: {
+        agg_date_histogram_extended_bounds: {
+          date_histogram: {
+            field: 'extended',
+            extended_bounds: {
+              max: '2024-12-31',
+              min: '2024-01-01'
+            }
+          },
+        },
+      },
+    })
+  })
+
   it('date_range aggregation', () => {
     const result = esBuilder()
       .aggregation('agg_date_range_date', 'date_range', 'date', {

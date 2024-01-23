@@ -191,6 +191,10 @@ export interface DateHistogramAggregation {
     fixed_interval?: string
     offset?: string
     min_doc_count?: number
+    extended_bounds?: {
+      min: number | string
+      max: number | string
+    }
     format?: string
     time_zone?: string
     keyed?: boolean
