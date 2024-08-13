@@ -1,4 +1,4 @@
-import {Coordinate, PrimitiveValue, PrimitiveValueArray, Script} from './common'
+import {Coordinate, PrimitiveValue, PrimitiveValueArray, Script, Sort} from './common'
 
 // Match all queries
 
@@ -460,6 +460,19 @@ export interface NestedQuery {
     query: Query
     score_mode?: 'avg' | 'sum' | 'min' | 'max' | 'none'
     ignore_unmapped?: boolean
+    inner_hits?: {
+      _source?:
+        | false
+        | string
+        | string[]
+        | {includes: string[]}
+        | {excludes: string[]}
+        | {includes: string[]; excludes: string[]}
+      size?: number
+      sort?: Sort
+      from?: number
+      name?: string
+    }[]
   }
 }
 
@@ -471,6 +484,19 @@ export interface HasChildQuery {
     min_children?: number
     max_children?: number
     ignore_unmapped?: boolean
+    inner_hits?: {
+      _source?:
+        | false
+        | string
+        | string[]
+        | {includes: string[]}
+        | {excludes: string[]}
+        | {includes: string[]; excludes: string[]}
+        size?: number
+        sort?: Sort
+        from?: number
+        name?: string
+    }[]
   }
 }
 
