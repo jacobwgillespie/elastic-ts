@@ -16,9 +16,9 @@ export interface MatchNoneQuery {
 
 export interface MatchQueryFieldConfig {
   match:
-    | string
+    | string | number | boolean
     | {
-        query: string
+        query: string | number | boolean
 
         analyzer?: string
         boost?: number
